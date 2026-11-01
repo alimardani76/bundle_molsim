@@ -28,7 +28,7 @@ EXPECTED = {
  "figures/main/fig6_family_and_shortlist.pdf": "e8fbfc4b8bcf2bd4af4684209be227f50e4bac27",
  "figures/si/figS1_precision_diagnostics.pdf": "b665cc8acd7b09b92858fa49eae78775607a55e7",
  "figures/si/figS2_gas_specific_increment.pdf": "91390ba7cef2bb02be68f1487bbe3a9b4b3fa5d2",
- "figures/si/figS3_family_details.pdf": "3bb2b458ebab3075ffca306d938464430f66896a1ccb0d",
+ "figures/si/figS3_family_details.pdf": "3bb2b458ebab3075ffca306d938464430f6fdfbe",
  "figures/si/figS4_shortlist_membership.pdf": "4318c91badf3aaab74a6f413070f66896a1ccb0d",
  "figures/toc/TOC_interaction_stages.pdf": "a083099e90a99e1ed36a6b4272fbf0a783e9cbe3",
 }
