@@ -1,0 +1,33 @@
+name: Export frozen JCTC manuscript for Overleaf
+on:
+  push:
+    paths:
+      - scripts/export_overleaf.py
+      - .github/workflows/export-overleaf.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify source blobs and export publication files
+        run: python scripts/export_overleaf.py
+      - name: Upload Overleaf project ZIP (direct-upload ZIP contents)
+        uses: actions/upload-artifact@v4
+        with:
+          name: JCTC-Overleaf-Ready-4227244e
+          path: dist/overleaf_project/
+          if-no-files-found: error
+      - name: Upload nested standalone ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: JCTC-Overleaf-ZIP-4227244e
+          path: dist/JCTC_OVERLEAF_SYNCED_4227244e.zip
+          if-no-files-found: error
