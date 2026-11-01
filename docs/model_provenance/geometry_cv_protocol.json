@@ -1,0 +1,33 @@
+{
+  "model": "ExtraTreesRegressor",
+  "n_estimators": 500,
+  "min_samples_leaf": 3,
+  "max_features": 0.7,
+  "random_state": 20260918,
+  "n_splits": 5,
+  "shuffle": true,
+  "group_column": null,
+  "feature_count": 14,
+  "feature_columns": [
+    "geom_df",
+    "geom_di",
+    "geom_density",
+    "geom_uc_volume",
+    "geom_asa",
+    "geom_ava",
+    "geom_avaf",
+    "geom_nava",
+    "geom_navaf",
+    "geom_poava",
+    "geom_poavaf",
+    "geom_npoava",
+    "geom_npoavaf",
+    "geom_dif"
+  ],
+  "preprocessing": "Median imputation and StandardScaler inside the cross_val_predict Pipeline, fitted on training folds only according to the inspected source code",
+  "baseline": "Full-cohort target median; descriptive reference, not an out-of-fold baseline",
+  "predictions": "Restored byte-identical archived prediction table; geometry subset selected by feature_set",
+  "folds": "Reconstructed from source KFold shuffle and unchanged input row order; no standalone historical fold artifact was found",
+  "audit_limit": "Saved predictions/metrics and source protocol audited; no estimator refit or fresh training replay performed",
+  "excluded_alternative": "final_descriptor_hierarchy/25-feature model differs and is not the source of the published v5/v9 geometry scores"
+}

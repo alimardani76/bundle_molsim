@@ -1,0 +1,5 @@
+target,r2,mae,baseline_mae
+lnS_wca,0.835,0.033,0.093
+delta_lnS_attr,0.874,0.177,0.549
+delta_lnS_elec,0.188,0.146,0.147
+lnS_full,0.845,0.189,0.501

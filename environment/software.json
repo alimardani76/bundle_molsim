@@ -1,0 +1,10 @@
+{
+  "analysis_python": "3.13.13",
+  "OS": "Windows",
+  "PowerShell": "5.1.26100.9836",
+  "pdflatex": "MiKTeX-pdfTeX 4.21 (MiKTeX 25.4)",
+  "bibtex": "MiKTeX-BibTeX 4.1 (MiKTeX 25.4)",
+  "simulation_engine_record": "docs/model_provenance/production_protocol.json",
+  "model_training_rerun": false,
+  "simulations_rerun": false
+}

@@ -1,0 +1,12 @@
+figure,panels,source,producer,authoritative_basis,output,notes
+1,a-d,data/figure_sources/figure_1.csv,scripts/regenerate_figures.py::make_fig1,unchanged 238-MOF cohort; retained source cases when applicable,figures/main/fig1_interaction_pathway.pdf,
+2,a-b,data/figure_sources/figure_2.csv,scripts/regenerate_figures.py::make_fig2,unchanged 238-MOF cohort; retained source cases when applicable,figures/main/fig2_mechanism_diversity.pdf,
+3,a-b,data/figure_sources/figure_3.csv,scripts/regenerate_figures.py::make_fig3,restored 14-feature saved OOF predictions,figures/main/fig3_geometry_information.pdf,
+4,a-c,data/figure_sources/figure_4_values.csv + figure_4_pair.csv,scripts/regenerate_figures.py::make_fig4,unchanged 238-MOF cohort; retained source cases when applicable,figures/main/fig4_matched_contrast.pdf,"illustrative retained pair, not exhaustive optimum"
+5,a-c,data/figure_sources/figure_5_population.csv + figure_5_cases.csv,scripts/regenerate_figures.py::make_fig5,unchanged 238-MOF cohort; retained source cases when applicable,figures/main/fig5_ranking_consequences.pdf,
+6,a-c,data/figure_sources/figure_6.csv,scripts/regenerate_figures.py::make_fig6,unchanged 238-MOF cohort; retained source cases when applicable,figures/main/fig6_family_and_shortlist.pdf,
+S1,a-b,data/figure_sources/figure_S1_S2.csv,scripts/regenerate_figures.py::make_si,unchanged 238-MOF cohort; retained source cases when applicable,figures/si/figS1_precision_diagnostics.pdf,
+S2,a-b,data/figure_sources/figure_S1_S2.csv,scripts/regenerate_figures.py::make_si,unchanged 238-MOF cohort; retained source cases when applicable,figures/si/figS2_gas_specific_increment.pdf,
+S3,a-c,data/figure_sources/figure_S3.csv + figure_S4.csv,scripts/regenerate_figures.py::make_si_extended,unchanged 238-MOF cohort; retained source cases when applicable,figures/si/figS3_family_details.pdf,
+S4,membership,data/figure_sources/figure_S3.csv + figure_S4.csv,scripts/regenerate_figures.py::make_si_extended,unchanged 238-MOF cohort; retained source cases when applicable,figures/si/figS4_shortlist_membership.pdf,
+TOC,state medians,data/figure_sources/TOC.csv,scripts/regenerate_figures.py::toc,unchanged 238-MOF cohort; retained source cases when applicable,figures/toc/TOC_interaction_stages.pdf,

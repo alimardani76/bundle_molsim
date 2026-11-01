@@ -1,0 +1,24 @@
+{
+  "status": "LEAKAGE_FREE_DESCRIPTOR_ANALYSIS_COMPLETE",
+  "rows": 238,
+  "targets": {
+    "lnS_wca": "lnS_wca",
+    "delta_attr": "delta_lnS_attr",
+    "delta_elec": "delta_lnS_elec",
+    "lnS_full": "lnS_full"
+  },
+  "group_column": null,
+  "feature_counts": {
+    "geometry": 14,
+    "chemistry_rac": 0,
+    "topology_clusters": 0,
+    "combined": 14
+  },
+  "models": 8,
+  "outputs": [
+    "descriptor_hierarchy_metrics.csv",
+    "descriptor_hierarchy_predictions.csv",
+    "descriptor_feature_manifest.csv",
+    "excluded_leakage_columns.csv"
+  ]
+}

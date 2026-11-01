@@ -1,0 +1,92 @@
+#!/usr/bin/env python3
+"""Path B robustness analysis: grouped holdouts, uncertainty-aware ranks, and matched contrasts."""
+from pathlib import Path
+import json, re, warnings
+import numpy as np
+import pandas as pd
+from scipy.stats import spearmanr
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import r2_score, mean_absolute_error
+from sklearn.model_selection import GroupKFold, KFold, cross_val_predict
+
+R=Path.cwd(); O=R/'path_b_analysis/robustness_results'; O.mkdir(parents=True,exist_ok=True)
+P=R/'path_b_analysis/path_b_final_238_authoritative.csv'
+if not P.is_file(): raise SystemExit(f'Missing {P}')
+d=pd.read_csv(P)
+# Prefer values already finalized after rescue.
+req=['mof_id','lnS_wca','delta_lnS_attr','delta_lnS_elec','lnS_full','lnS_lj_only','lnS_wca_se']
+missing=[x for x in req if x not in d]
+if missing: raise SystemExit(f'Missing columns: {missing}')
+geo=[c for c in ['geom_df','geom_di','geom_dif','geom_density','geom_asa','geom_avaf','geom_navaf','geom_poavaf','geom_npoavaf'] if c in d]
+if len(geo)<3: raise SystemExit('Insufficient geometry columns')
+
+# Discover group labels in authoritative table and companion dataset.
+comp=R/'analysis_results/mechanism_dataset_all_240.csv'
+if comp.is_file():
+ c=pd.read_csv(comp)
+ keep=['mof_id']+[x for x in c.columns if re.search(r'topolog|cluster|family|metal|linker|func|ligand|dimensional',x,re.I)]
+ if len(keep)>1:
+  d=d.merge(c[keep].drop_duplicates('mof_id'),on='mof_id',how='left',suffixes=('','_comp'))
+group_cols=[]
+for c in d.columns:
+ if re.search(r'topolog|geo_cluster|metal.*cluster|func.*cluster|linker.*cluster|ligand.*cluster|family|dimensionality',c,re.I):
+  n=d[c].nunique(dropna=True)
+  counts=d[c].value_counts(dropna=True)
+  if 2<=n<=100 and (counts>=2).sum()>=2: group_cols.append(c)
+
+X=d[geo].astype(float).copy();X=X.fillna(X.median())
+targets=['lnS_wca','delta_lnS_attr','delta_lnS_elec']
+rows=[];preds=[]
+model=lambda:RandomForestRegressor(n_estimators=500,min_samples_leaf=3,max_features=0.8,random_state=20260916,n_jobs=-1)
+# Random-fold reference.
+kf=KFold(n_splits=5,shuffle=True,random_state=20260916)
+for ycol in targets:
+ y=d[ycol].to_numpy();p=cross_val_predict(model(),X,y,cv=kf,n_jobs=1)
+ rows.append({'split':'random_5fold','group_column':'','target':ycol,'n':len(y),'groups':np.nan,'r2':r2_score(y,p),'mae':mean_absolute_error(y,p),'spearman':spearmanr(y,p).statistic})
+ preds.extend({'mof_id':m,'target':ycol,'split':'random_5fold','observed':o,'predicted':q} for m,o,q in zip(d.mof_id,y,p))
+# Group-held-out tests.
+for gc in group_cols:
+ ok=d[gc].notna();groups=d.loc[ok,gc].astype(str);ng=groups.nunique()
+ if ng<3: continue
+ ns=min(5,ng); gkf=GroupKFold(n_splits=ns)
+ for ycol in targets:
+  xx=X.loc[ok]; y=d.loc[ok,ycol].to_numpy()
+  try:p=cross_val_predict(model(),xx,y,groups=groups,cv=gkf,n_jobs=1)
+  except Exception as e:
+   warnings.warn(f'{gc}/{ycol}: {e}');continue
+  rows.append({'split':f'group_{ns}fold','group_column':gc,'target':ycol,'n':len(y),'groups':ng,'r2':r2_score(y,p),'mae':mean_absolute_error(y,p),'spearman':spearmanr(y,p).statistic})
+  preds.extend({'mof_id':m,'target':ycol,'split':gc,'observed':o,'predicted':q} for m,o,q in zip(d.loc[ok,'mof_id'],y,p))
+pd.DataFrame(rows).to_csv(O/'group_holdout_metrics.csv',index=False)
+pd.DataFrame(preds).to_csv(O/'group_holdout_predictions.csv',index=False)
+
+# Precision sensitivity and uncertainty-aware rank Monte Carlo for WCA-derived quantities.
+prec=d[d.lnS_wca_se<=0.10].copy()
+sens=[]
+for lab,z in [('all_238',d),('precision_pass',prec)]:
+ for x in targets:
+  sens.append({'population':lab,'n':len(z),'metric':x,'median':z[x].median(),'mean':z[x].mean(),'sd':z[x].std(),'positive_fraction':(z[x]>0).mean()})
+pd.DataFrame(sens).to_csv(O/'precision_sensitivity_final.csv',index=False)
+
+rng=np.random.default_rng(20260916);nsim=3000
+# Only WCA uncertainty is sampled; LJ/full uncertainty is not present in a directly comparable final column here.
+wca_draw=rng.normal(d.lnS_wca.to_numpy()[:,None],d.lnS_wca_se.to_numpy()[:,None],size=(len(d),nsim))
+attr_draw=d.lnS_lj_only.to_numpy()[:,None]-wca_draw
+rank=np.argsort(np.argsort(-attr_draw,axis=0),axis=0)+1
+rankq=[]
+for i,m in enumerate(d.mof_id):
+ rankq.append({'mof_id':m,'attr_rank_median':float(np.median(rank[i])),'attr_rank_q05':float(np.quantile(rank[i],.05)),'attr_rank_q95':float(np.quantile(rank[i],.95)),'prob_top10':float((rank[i]<=10).mean()),'prob_top25':float((rank[i]<=25).mean())})
+pd.DataFrame(rankq).sort_values('attr_rank_median').to_csv(O/'uncertainty_aware_attraction_ranks.csv',index=False)
+
+# Nearest geometry contrasts with exact case details.
+Z=(X-X.mean())/X.std(ddof=0).replace(0,1);A=Z.to_numpy();D=np.sqrt(((A[:,None,:]-A[None,:,:])**2).sum(2));np.fill_diagonal(D,np.inf)
+pairs=[]
+for i in range(len(d)):
+ for j in np.argsort(D[i])[:3]:
+  if i<j:
+   pairs.append({'mof_a':d.iloc[i].mof_id,'mof_b':d.iloc[j].mof_id,'geometry_distance':D[i,j],'lnS_wca_a':d.iloc[i].lnS_wca,'lnS_wca_b':d.iloc[j].lnS_wca,'attr_a':d.iloc[i].delta_lnS_attr,'attr_b':d.iloc[j].delta_lnS_attr,'abs_attr_contrast':abs(d.iloc[i].delta_lnS_attr-d.iloc[j].delta_lnS_attr),'elec_a':d.iloc[i].delta_lnS_elec,'elec_b':d.iloc[j].delta_lnS_elec,'abs_elec_contrast':abs(d.iloc[i].delta_lnS_elec-d.iloc[j].delta_lnS_elec),'full_a':d.iloc[i].lnS_full,'full_b':d.iloc[j].lnS_full})
+pairs=pd.DataFrame(pairs).drop_duplicates(['mof_a','mof_b'])
+pairs.sort_values(['geometry_distance','abs_attr_contrast'],ascending=[True,False]).to_csv(O/'close_geometry_case_details.csv',index=False)
+
+met=pd.DataFrame(rows)
+summary={'status':'PATH_B_ROBUSTNESS_COMPLETE','n':len(d),'precision_pass_n':len(prec),'group_columns_tested':group_cols,'random_r2':{t:float(met[(met.group_column=='')&(met.target==t)].r2.iloc[0]) for t in targets},'worst_group_r2':{t:(float(met[(met.group_column!='')&(met.target==t)].r2.min()) if len(met[(met.group_column!='')&(met.target==t)]) else None) for t in targets},'best_group_r2':{t:(float(met[(met.group_column!='')&(met.target==t)].r2.max()) if len(met[(met.group_column!='')&(met.target==t)]) else None) for t in targets},'outputs_directory':str(O.relative_to(R))}
+(O/'robustness_summary.json').write_text(json.dumps(summary,indent=2),encoding='utf-8');print(json.dumps(summary,indent=2))

@@ -1,0 +1,215 @@
+from pathlib import Path
+import json
+import numpy as np
+import pandas as pd
+
+ROOT = Path.cwd()
+DATA = ROOT / "path_b_analysis" / "path_b_final_238_authoritative.csv"
+PAIRS = (
+    ROOT
+    / "path_b_analysis"
+    / "robustness_results"
+    / "close_geometry_case_details.csv"
+)
+RANKS = (
+    ROOT
+    / "path_b_analysis"
+    / "robustness_results"
+    / "uncertainty_aware_attraction_ranks.csv"
+)
+OUT = ROOT / "path_b_analysis" / "paper_cases"
+OUT.mkdir(parents=True, exist_ok=True)
+
+df = pd.read_csv(DATA)
+
+required = [
+    "mof_id",
+    "lnS_wca",
+    "delta_lnS_attr",
+    "delta_lnS_elec",
+    "lnS_lj_only",
+    "lnS_full",
+    "lnS_wca_se",
+]
+
+missing = [column for column in required if column not in df.columns]
+
+if missing:
+    raise SystemExit(f"Missing columns: {missing}")
+
+df["S_wca"] = np.exp(df["lnS_wca"])
+df["S_lj"] = np.exp(df["lnS_lj_only"])
+df["S_full"] = np.exp(df["lnS_full"])
+df["attr_multiplier"] = np.exp(df["delta_lnS_attr"])
+df["elec_multiplier"] = np.exp(df["delta_lnS_elec"])
+
+df["rank_wca"] = df["lnS_wca"].rank(
+    ascending=False,
+    method="min",
+)
+
+df["rank_lj"] = df["lnS_lj_only"].rank(
+    ascending=False,
+    method="min",
+)
+
+df["rank_full"] = df["lnS_full"].rank(
+    ascending=False,
+    method="min",
+)
+
+df["attr_rank_promotion"] = df["rank_wca"] - df["rank_lj"]
+df["elec_rank_promotion"] = df["rank_lj"] - df["rank_full"]
+
+precision = df[df["lnS_wca_se"] <= 0.10].copy()
+
+attr_high = precision["delta_lnS_attr"].quantile(0.90)
+attr_low = precision["delta_lnS_attr"].quantile(0.35)
+elec_high = precision["delta_lnS_elec"].quantile(0.90)
+elec_low = precision["delta_lnS_elec"].quantile(0.35)
+
+cases = []
+
+def add_case(label, row):
+    cases.append(
+        {
+            "case_label": label,
+            "mof_id": row["mof_id"],
+            "lnS_wca": row["lnS_wca"],
+            "S_wca": row["S_wca"],
+            "delta_lnS_attr": row["delta_lnS_attr"],
+            "attr_multiplier": row["attr_multiplier"],
+            "delta_lnS_elec": row["delta_lnS_elec"],
+            "elec_multiplier": row["elec_multiplier"],
+            "lnS_full": row["lnS_full"],
+            "S_full": row["S_full"],
+            "rank_wca": row["rank_wca"],
+            "rank_lj": row["rank_lj"],
+            "rank_full": row["rank_full"],
+            "lnS_wca_se": row["lnS_wca_se"],
+        }
+    )
+
+attraction_dominated = precision[
+    (precision["delta_lnS_attr"] >= attr_high)
+    & (precision["delta_lnS_elec"] <= elec_low)
+].sort_values(
+    ["delta_lnS_attr", "delta_lnS_elec"],
+    ascending=[False, True],
+).iloc[0]
+
+electrostatic_enhanced = precision[
+    (precision["delta_lnS_elec"] >= elec_high)
+    & (precision["delta_lnS_attr"] <= attr_low)
+].sort_values(
+    ["delta_lnS_elec", "delta_lnS_attr"],
+    ascending=[False, True],
+).iloc[0]
+
+jointly_reinforced = precision[
+    (precision["delta_lnS_attr"] >= attr_high)
+    & (precision["delta_lnS_elec"] >= elec_high)
+].sort_values(
+    "lnS_full",
+    ascending=False,
+).iloc[0]
+
+weak_both = precision[
+    (precision["delta_lnS_attr"] <= attr_low)
+    & (precision["delta_lnS_elec"] <= elec_low)
+].sort_values(
+    "lnS_full",
+    ascending=True,
+).iloc[0]
+
+attr_promoter = precision.sort_values(
+    "attr_rank_promotion",
+    ascending=False,
+).iloc[0]
+
+elec_promoter = precision.sort_values(
+    "elec_rank_promotion",
+    ascending=False,
+).iloc[0]
+
+add_case("attraction_dominated", attraction_dominated)
+add_case("electrostatic_enhanced", electrostatic_enhanced)
+add_case("jointly_reinforced", jointly_reinforced)
+add_case("weak_on_both_energetic_axes", weak_both)
+add_case("largest_attraction_rank_promotion", attr_promoter)
+add_case("largest_electrostatic_rank_promotion", elec_promoter)
+
+case_table = pd.DataFrame(cases)
+case_table.to_csv(
+    OUT / "representative_mechanism_cases.csv",
+    index=False,
+)
+
+pairs = pd.read_csv(PAIRS)
+
+close_cutoff = pairs["geometry_distance"].quantile(0.25)
+close_pairs = pairs[
+    pairs["geometry_distance"] <= close_cutoff
+].copy()
+
+attraction_pair = close_pairs.sort_values(
+    ["abs_attr_contrast", "geometry_distance"],
+    ascending=[False, True],
+).iloc[0]
+
+electrostatic_pair = close_pairs.sort_values(
+    ["abs_elec_contrast", "geometry_distance"],
+    ascending=[False, True],
+).iloc[0]
+
+selected_pairs = pd.DataFrame(
+    [
+        {
+            "case_label": "close_geometry_large_attraction_contrast",
+            **attraction_pair.to_dict(),
+        },
+        {
+            "case_label": "close_geometry_large_electrostatic_contrast",
+            **electrostatic_pair.to_dict(),
+        },
+    ]
+)
+
+selected_pairs.to_csv(
+    OUT / "selected_geometry_matched_pairs.csv",
+    index=False,
+)
+
+if RANKS.is_file():
+    ranks = pd.read_csv(RANKS)
+    ranks.sort_values(
+        ["prob_top10", "attr_rank_median"],
+        ascending=[False, True],
+    ).head(25).to_csv(
+        OUT / "uncertainty_stable_attraction_shortlist.csv",
+        index=False,
+    )
+
+summary = {
+    "status": "PATH_B_PAPER_CASES_SELECTED",
+    "representative_cases": case_table[
+        ["case_label", "mof_id"]
+    ].to_dict("records"),
+    "matched_pairs": selected_pairs[
+        ["case_label", "mof_a", "mof_b"]
+    ].to_dict("records"),
+    "outputs": [
+        "path_b_analysis/paper_cases/representative_mechanism_cases.csv",
+        "path_b_analysis/paper_cases/selected_geometry_matched_pairs.csv",
+        "path_b_analysis/paper_cases/uncertainty_stable_attraction_shortlist.csv",
+    ],
+}
+
+(
+    OUT / "case_selection_summary.json"
+).write_text(
+    json.dumps(summary, indent=2),
+    encoding="utf-8",
+)
+
+print(json.dumps(summary, indent=2))

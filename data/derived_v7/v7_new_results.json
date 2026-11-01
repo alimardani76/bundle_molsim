@@ -1,0 +1,33 @@
+{
+  "count": 238,
+  "families": [
+    {
+      "identifier_family": "DB0-m12",
+      "n": 28,
+      "wca_median": -0.0871366165252371,
+      "attr_median": 1.755118001966189,
+      "elec_median": 0.3127468437769372,
+      "attr_elec_spearman": 0.5117679255610289
+    },
+    {
+      "identifier_family": "DB0-m15",
+      "n": 210,
+      "wca_median": -0.21484939294773314,
+      "attr_median": 2.598543271073929,
+      "elec_median": 0.3076359027083855,
+      "attr_elec_spearman": -0.12612595685681244
+    }
+  ],
+  "topology_fsc": 171,
+  "shortlist_k": 24,
+  "shortlist_overlap": {
+    "wca_to_lj": 0,
+    "lj_to_full": 17
+  },
+  "shortlist_fraction": {
+    "wca_to_lj": 0,
+    "lj_to_full": 0.7083333333333334
+  },
+  "recorded_source": "data/authoritative/mechanism_238_authoritative.csv",
+  "status": "Source-derived descriptive analyses only; no new simulation or ML refitting"
+}

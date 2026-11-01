@@ -1,0 +1,592 @@
+--- original_v9/README_START_HERE.md
++++ reconciled/README_START_HERE.md
+@@ -1,40 +1,5 @@
+-# P01 / JCTC single-journal submission package — V9
++# Reconciled v9 publication package
+ 
+-This archive contains only the **Journal of Chemical Theory and Computation** manuscript version, its expanded Supporting Information, six main figures, four SI figures, a TOC graphic, validated source tables, and Python reproduction scripts. No JMCA manuscript is included.
++Use [README.md](README.md) for simulation-provenance limits, archived output sources, analytical result commands, final figure inputs and document builds.
+ 
+-## Layout
+-- `manuscript/main.tex`, `manuscript/references.bib` — JCTC `achemso` article; `main.pdf` is the compiled proof.
+-- `supporting_information/supporting_information.tex` and PDF — separate SI document.
+-- `figures/main` — all six vector publication figures, plus PNG and 600-dpi TIFFs.
+-- `figures/si` — supplementary figures.
+-- `figures/toc` — graphical abstract / TOC image for journal submission.
+-- `data/authoritative` — the 238-row consolidated numerical evidence and selected model summaries.
+-- `data/source_v2` — figures' archived version-2 source tables.
+-- `data/derived_v7` — derived family- and shortlist-analysis results.
+-- `scripts` — source-derived figure regeneration, exported numerical tables, and verification scripts.
+-- `archive_provenance` — historical source and supporting provenance material, including the unchanged original ZIP.
+-- `quality_control` — compiled-page checks, citation checks, source data checks, and hashes.
+-- `submission_documents` — JCTC-oriented cover letter and required pre-submission checks.
+-
+-## Python: regenerate tables and figures
+-From the top-level directory in VS Code / Visual Studio PowerShell:
+-```powershell
+-python -m pip install -r requirements.txt
+-python scripts/export_derived_tables.py
+-python scripts/regenerate_figures.py
+-python scripts/verify_package.py
+-```
+-These scripts reproduce the tabular analyses and figure plots. They **do not rerun molecular simulations**.
+-
+-## LaTeX compilation
+-From the manuscript directory:
+-```
+-pdflatex -interaction=nonstopmode -halt-on-error main.tex
+-bibtex main
+-pdflatex -interaction=nonstopmode -halt-on-error main.tex
+-pdflatex -interaction=nonstopmode -halt-on-error main.tex
+-```
+-Compile the SI separately from its own directory, with `pdflatex` / `bibtex` as required. The document is formatted using the installed `achemso` class for `journal=jctcce`.
+-
+-## Important author actions
+-The text, figures, and supporting documents compile and pass the provided numerical QA. Submission requires author confirmation of the corresponding address, CRediT contributions, financial interests, funding and acknowledgments, and deposited permanent access to complete primary inputs where available. See `submission_documents/SUBMISSION_CHECKLIST.md`. No invented declarations or repository DOI are supplied.
++The original 238-framework cohort and verified results are preserved. Matching final OOF evidence is restored; original matched pairs are distinguished from exhaustive optima. See [CHANGELOG_SCIENTIFIC.md](CHANGELOG_SCIENTIFIC.md) for every correction and its evidence.
+--- original_v9/data/authoritative/geometry_cv_FINAL_v5_SOURCE.txt
++++ reconciled/data/authoritative/geometry_cv_FINAL_v5_SOURCE.txt
+@@ -1 +1 @@
+-VALUES TRANSCRIBED FROM v5/si.tex, Geometry-only models table, and v5 main.tex. Figure_3_source.csv in v2 has earlier (non-identical) model figures. This table must NOT be described as newly re-fit or experimentally revalidated. Exact out-of-fold prediction vectors were not included in this ZIP.
++Historical v5 metric transcription, preserved unchanged as a reference table. The reconciled release restores its matching 14-feature saved OOF evidence in data/provenance/descriptor_hierarchy_predictions.csv and the feature manifest, fitting-protocol source, and bootstrap evidence. Exact metrics are recomputed into data/final/geometry_cv_metrics.csv; Figure 3 uses those recomputed metrics. No model was refit. Earlier v2 and neighboring 25-feature models are distinct.
+--- original_v9/manuscript/main.tex
++++ reconciled/manuscript/main.tex
+@@ -13,7 +13,7 @@
+ \begin{document}
+ 
+ \begin{abstract}
+-Henry-law selectivity indicates whether a metal--organic framework (MOF) favors CO$_2$ over N$_2$ at infinite dilution, but does not identify the interactions that create this preference. We compare 238 MOFs at 298~K using three nested molecular models: a repulsive Weeks--Chandler--Andersen reference, complete Lennard--Jones interactions without charges, and the charged full potential. All repulsive-reference point estimates favor N$_2$, whereas restoring attraction reverses the preference across the panel (median 12.65-fold enhancement); electrostatics adds a median 1.36-fold enhancement but produces a 6.42-fold contrast even for a geometry-matched pair. The attractive and electrostatic increments are weakly associated (Spearman $\\rho=-0.089$), and geometry predicts attraction more readily than electrostatic variation, revealing mechanistic distinctions concealed by the final selectivity while remaining specific to the studied frameworks and interaction path.
++Henry-law selectivity indicates whether a metal--organic framework (MOF) favors CO$_2$ over N$_2$ at infinite dilution, but does not identify the interactions that create this preference. We compare 238 MOFs at 298~K using three nested molecular models: a repulsive Weeks--Chandler--Andersen reference, complete Lennard--Jones interactions without charges, and the charged full potential. All repulsive-reference point estimates favor N$_2$, whereas restoring attraction reverses the preference across the panel (median 12.65-fold enhancement); electrostatics adds a median 1.36-fold enhancement but produces a 6.42-fold contrast even for a geometry-matched pair. The attractive and electrostatic increments are weakly associated (Spearman $\rho=-0.089$), and geometry predicts attraction more readily than electrostatic variation, revealing mechanistic distinctions concealed by the final selectivity while remaining specific to the studied frameworks and interaction path.
+ \end{abstract}
+ 
+ \section{Introduction}
+@@ -35,7 +35,7 @@
+ 
+ A panel of 240 ARC--MOF structures \cite{burner2023arcmof} was selected before the project-owned WCA, attractive, and electrostatic coordinates were calculated; 238 had the complete WCA, LJ-only, and full CO$_2$/N$_2$ quantities required for the common analysis. Frameworks were treated as rigid at 298~K. Full and LJ-only Henry calculations used RASPA3 version 3.0.29 \cite{ran2024raspa3,dubbeldam2016raspa}. The framework Lennard--Jones model used element-level UFF parameters \cite{rappe1992uff} with Lorentz--Berthelot mixing, a 12~\AA{} cutoff, shifted truncation, and no tail correction. Framework electrostatics used the ARC--MOF REPEAT partial charges stored with the structures. CO$_2$ used the rigid three-site model of Garc\'ia-S\'anchez et al. \cite{garciasanchez2009co2}, and N$_2$ used the rigid three-site quadrupolar model of Martin-Calvo et al. \cite{martincalvo2015gases}. Full calculations used Ewald electrostatics; LJ-only calculations set framework and guest pseudoatom charges to zero while preserving the Lennard--Jones definitions.
+ 
+-The full calculation used 50,000 Widom cycles per seed and the LJ-only calculation used 10,000 cycles per seed, with three matched default seeds (58101--58103) and adaptive extension of unresolved cases. Tabulated production results and the earlier analysis scripts are included with the source data; a complete rerun of the original simulations additionally requires the original structural and force-field input files, which were not included in the supplied bundle.
++The archived protocol specifies 50,000 Widom cycles per full-potential seed and 10,000 per LJ-only seed, with three matched default seeds (58101--58103) and adaptive extension of unresolved cases. The release supplies the recorded protocol, molecular parameter records and tabulated gas-specific seed summaries. These support reaggregation of the final statistics; a complete simulation replay additionally requires the full structural inputs, per-job input decks and executable environment, which are not supplied as a complete runnable set.
+ 
+ 
+ \subsection{Nested reference potentials}
+@@ -64,7 +64,7 @@
+ \subsection{Geometry control}
+ 
+ 
+-The geometry analysis used 14 conventional pre-simulation descriptors. Target-derived adsorption quantities, identifiers, filenames, cluster labels, and other variables capable of encoding the target were excluded before fitting. ExtraTrees regressors used 500 trees, minimum leaf size three, a maximum-feature fraction of 0.7, and five-fold shuffled cross-validation with random seed 20260918. The model is used here as a mechanistic control---to test how much of each interaction coordinate is already encoded by pore geometry---rather than as a predictive contribution in its own right. Performance was evaluated with $R^2$, MAE, and median-predictor MAE.
++The geometry analysis used 14 conventional pre-simulation descriptors, separately from the nine descriptors used for pair matching. Target-derived adsorption quantities, identifiers and grouping labels were excluded from this feature set. The archived pipeline used median imputation and standardization within the training folds, followed by ExtraTrees regressors with 500 trees, minimum leaf size three and a maximum-feature fraction of 0.7. Five-fold shuffled cross-validation and the estimator used random seed 20260918. The restored saved out-of-fold predictions reproduce the reported $R^2$ and MAE without refitting. The comparison MAE uses the full-cohort target median as a descriptive reference; it is not an out-of-fold fitted baseline. Fold membership is reconstructed from the archived split protocol and unchanged cohort row order. The model is a mechanistic control for the information in pore geometry rather than a new predictive contribution.
+ 
+ 
+ \subsection{Mechanism fingerprint, endpoint matching, and uncertainty}
+@@ -74,7 +74,7 @@
+ \begin{equation}
+ \mathbf{m}_i=(\Delta\ln S_{{\rm attr},i},\Delta\ln S_{{\rm elec},i}).
+ \end{equation}
+-Endpoint-mechanism non-uniqueness was evaluated before inspecting pair identities. All 28,203 framework pairs were ranked by $|\ln S_{{\rm full},i}-\ln S_{{\rm full},j}|$; the closest 5\% were retained, and only within this frozen subset were pairs ranked by Euclidean distance $||\mathbf{m}_i-\mathbf{m}_j||_2$.
++The archived endpoint-mechanism analysis ranks all 28,203 framework pairs by $|\ln S_{{\rm full},i}-\ln S_{{\rm full},j}|$; the closest 5\% are retained, and within that subset pairs are ranked by Euclidean distance $||\mathbf{m}_i-\mathbf{m}_j||_2$.
+ 
+ We calculated uncertainty intervals for the median increments, the Spearman correlation between interaction increments, and the geometry-prediction gap by 5,000 bootstrap resamples (seed 20260920). For the prediction gap, we resampled the frozen out-of-fold predictions without refitting the model.
+ 
+@@ -82,7 +82,7 @@
+ \subsection{Matched-pair analysis}
+ 
+ 
+-Matched pairs were selected from the closest 2\% of all framework pairs in a standardized nine-descriptor geometry space and then ranked by contrast in the target interaction coordinate. The retained attraction pair is M089/M192 and the retained electrostatic pair is M029/M085. M029 and M085 are mutual nearest neighbors in the matching geometry space. Pair selection preceded the spatial interpretation.
++The archived illustrative pairs are M089/M192 for attraction and M029/M085 for electrostatics. Their original selector first formed a list from each framework's three nearest neighbors in the standardized nine-descriptor geometry space, retaining a pair only when its source-row index satisfied $i<j$. It then kept the lower distance quartile of that list and selected the largest coordinate contrasts within this restricted set. The resulting 96-pair set differs from the 564 pairs obtained by retaining the closest 2\% of all 28,203 pairs. We preserve the original examples and separately report the optima under the all-pair rule in the Supporting Information. M029 and M085 are mutual nearest neighbors; their illustrative contrast is not the all-pair optimum. The archive establishes the implemented rule but does not independently establish a preregistration date.
+ 
+ 
+ \subsection{Robustness analyses}
+@@ -102,7 +102,7 @@
+ 
+ \subsection{Attraction reverses the repulsive preference}
+ 
+-The common analysis set contains 238 MOFs with WCA, LJ-only, and full CO$_2$/N$_2$ calculations. It is dominated by the DB0-m15 identifier family (210 structures), with 28 DB0-m12 structures; these are not claimed to sample all relevant MOF chemistries. The nested identity closes numerically to a maximum absolute residual below $5\times10^{-16}$ on the archived authoritative source table.
++The common analysis set contains 238 MOFs with WCA, LJ-only, and full CO$_2$/N$_2$ calculations. It is dominated by the DB0-m15 identifier family (210 structures), with 28 DB0-m12 structures; these are not claimed to sample all relevant MOF chemistries. The nested identity closes numerically to a maximum absolute residual below $10^{-12}$ when recomputed from the unchanged authoritative CSV (maximum absolute residual $8.9\times10^{-16}$ in the audited environment).
+ 
+ Under the WCA reference, all 238 frameworks favor N$_2$. The median $\ln S_{\rm WCA}$ is $-0.204$, corresponding to a median $S_{\rm WCA}=0.816$. Repulsive interactions alone therefore do not produce CO$_2$ preference in this panel.
+ 
+@@ -144,7 +144,7 @@
+ 
+ The attractive and electrostatic increments are only weakly associated across the population (Spearman $\rho=-0.089$; framework-bootstrap 95\% interval $-0.222$ to $0.050$; Figure~\ref{fig:map}). A framework that receives a large attractive enhancement does not necessarily receive a large electrostatic enhancement. This does not imply statistical independence; rather, once attractive interactions have established CO$_2$ preference, electrostatics introduces an additional dimension of framework-specific recognition.
+ 
+-The final selectivity is also mechanistically non-unique. We froze an endpoint-matching rule before inspecting pair identities: the closest 5\% of all 28,203 framework pairs in $|\ln S_{{\rm full},i}-\ln S_{{\rm full},j}|$ were retained (1,411 pairs; cutoff 0.0538) and then ranked by Euclidean distance in $(\Delta\ln S_{\rm attr},\Delta\ln S_{\rm elec})$. Within this endpoint-matched set, the median mechanism distance is 0.189 and the 95th percentile is 0.750. The strongest pair differs by only 0.016 in final $\ln S$ but has a mechanism distance of 2.585: its attractive/electrostatic increments are 2.211/2.001 versus 4.238/0.396. Thus nearly identical endpoint performance can be assembled from sharply different balances of attraction and electrostatics without altering the population-level sequential mechanism.
++The final selectivity is also mechanistically non-unique. Using the archived endpoint-matching rule, the closest 5\% of all 28,203 framework pairs in $|\ln S_{{\rm full},i}-\ln S_{{\rm full},j}|$ were retained (1,411 pairs; cutoff 0.0538) and then ranked by Euclidean distance in $(\Delta\ln S_{\rm attr},\Delta\ln S_{\rm elec})$. Within this endpoint-matched set, the median mechanism distance is 0.189 and the 95th percentile is 0.750. The strongest pair differs by only 0.016 in final $\ln S$ but has a mechanism distance of 2.585: its attractive/electrostatic increments are 2.211/2.001 versus 4.238/0.396. Thus nearly identical endpoint performance can be assembled from sharply different balances of attraction and electrostatics without altering the population-level sequential mechanism.
+ 
+ \begin{figure}[tbp]
+ \centering
+@@ -170,23 +170,30 @@
+ \begin{figure}[tbp]
+ \centering
+ \includegraphics[width=\linewidth]{fig3_geometry_information.pdf}
+-\caption{\textbf{Pore geometry captures the attractive stage much more strongly than electrostatic variation.} (a) Five-fold out-of-fold $R^2$ of geometry-only models for the nested coordinates and final endpoint. (b) MAE normalized by the corresponding median-predictor MAE for the attractive and electrostatic increments; a value of one indicates no practical improvement over the baseline. The attraction--electrostatics $R^2$ gap is 0.686 with a framework-bootstrap 95\% interval of 0.560--0.905. This analysis is a mechanistic control rather than an ML benchmark.}
++\caption{\textbf{Pore geometry captures the attractive stage much more strongly than electrostatic variation.} (a) Five-fold out-of-fold $R^2$ of geometry-only models for the nested coordinates and final endpoint. (b) MAE normalized by the full-cohort median-reference MAE for all four targets; a value of one indicates no improvement over that descriptive reference. The bars and bootstrap are recomputed from restored saved final out-of-fold predictions; no model is refitted. The attraction--electrostatics $R^2$ gap is 0.686 with a framework-bootstrap 95\% interval of 0.560--0.905. This analysis is a mechanistic control rather than an ML benchmark.}
+ \label{fig:geometry}
+ \end{figure}
+ 
+ 
+ \subsection{Geometry-matched frameworks can differ in chemical recognition}
+ 
+-The preselected electrostatic matched pair M029/M085 provides a stringent local test of the population-level interpretation. In the standardized nine-descriptor geometry space used for pair selection, the two structures are mutual nearest neighbors (distance 0.258). Their repulsive log-selectivities are nearly identical, $-0.201$ and $-0.198$, yet their electrostatic increments are 0.141 and 2.001, a difference of 1.860, corresponding to a 6.42-fold contrast in the multiplicative electrostatic contribution.
++The retained illustrative electrostatic pair M029/M085 provides a local comparison for the population-level interpretation (Figure~\ref{fig:matched}). In the standardized nine-descriptor geometry space used for pair selection, the two structures are mutual nearest neighbors (distance 0.258). Their repulsive log-selectivities are nearly identical, $-0.201$ and $-0.198$, yet their electrostatic increments are 0.141 and 2.001, a difference of 1.860, corresponding to a 6.42-fold contrast in the multiplicative electrostatic contribution.
+ 
+ The global Henry coefficients identify which gas drives this divergence. Restoring electrostatics changes $\ln K_H$ for CO$_2$ by 0.162 in M029 and 2.032 in M085, whereas the N$_2$ changes are only 0.021 and 0.032. The between-framework difference is therefore 1.871 log units for CO$_2$ but only 0.011 for N$_2$: the stronger electrostatic recognition in M085 is overwhelmingly CO$_2$-driven.
+ 
+-It is worth separating the type of similarity enforced by the matching procedure from chemical identity. A mutual nearest-neighbor relationship in 14 geometry descriptors means that each member is the closest available entry to the other in the selected standardized descriptor space. It does not mean that every pore aperture, surface atom, charge distribution, or adsorption-site orientation is identical. Indeed, the available identifiers describe different topologies and different elemental compositions for M029 and M085. This distinction is a source of scientific leverage, not a flaw: the pair asks how much chemical specificity can be concealed by geometric similarity.
++Similarity in the nine matching descriptors does not establish chemical identity. The mutual nearest-neighbor relationship means that each member is the closest available entry to the other in that selected standardized descriptor space; it does not mean that every aperture, surface atom, charge distribution or adsorption-site orientation is identical. Identifier suffixes provide metadata labels but do not independently establish elemental composition or topology. We therefore base the pair comparison on its verified geometry coordinates and gas-resolved Henry responses, and reserve atomic or topological attribution for a structural analysis.
+ 
+ The gas-resolved values give the strongest evidence for where the contrast lies. For CO$_2$, the full-minus-LJ log-Henry response is 0.162 in M029 and 2.032 in M085. For N$_2$, the corresponding changes are only 0.021 and 0.032. The cross-material CO$_2$ difference is approximately 1.870 log units, while the N$_2$ difference is about 0.011. The resulting electrostatic-selectivity contrast is therefore primarily a CO$_2$ recognition effect in the evaluated model, not a similarly large redistribution of N$_2$ adsorption.
+ 
+ The next inference would be to assign this contrast to an atomic motif: a polar linker environment, a particular local coordination pattern, or a favorable orientation of the CO$_2$ quadrupole. That inference cannot be completed from the global Henry coefficients alone. The earlier manuscript contained visual spatial-field diagnostics, but the gridded values required to regenerate or quantitatively partition those maps were absent from the supplied archive. We have therefore not redrawn the earlier fields as if they were new simulation output. A chemically resolved follow-up would need a reproducible mapping between local host atoms and well-converged, normalized insertion-statistical weights.
+ 
++
++\begin{figure}[tbp]
++\centering
++\includegraphics[width=\linewidth]{fig4_matched_contrast.pdf}
++\caption{\textbf{A retained illustrative geometry-matched pair exhibits different electrostatic responses.} (a) Nested log-selectivity trajectories for M029 and M085, which are mutual nearest neighbors in the nine-descriptor matching space. (b) Full-minus-LJ log Henry increments for each gas. (c) Verified distance and scalar contrasts. These are retained examples from the restricted archived candidate procedure, not the optimal pair under the all-pair closest-2\% rule; the Supporting Information reports both rules separately.}
++\label{fig:matched}
++\end{figure}
+ 
+ \subsection{Consequences for candidate rankings}
+ 
+@@ -220,7 +227,7 @@
+ \label{fig:family}
+ \end{figure}
+ 
+-The results separate three questions that a single selectivity ratio merges: where discrimination first arises, how chemical recognition changes the magnitude of the preference, and whether the distinction matters for selecting candidates. The WCA-to-LJ rank reversal is mechanistic because the WCA reference is artificial, while the seven changes to the top-24 shortlist upon restoring electrostatics are more relevant to charge-free screening approximations. Neither result demonstrates separation-process superiority; process-scale rankings depend on loading, mixtures, transport, and cycle constraints \\cite{farmahini2020process,farmahini2021screening}.
++The results separate three questions that a single selectivity ratio merges: where discrimination first arises, how chemical recognition changes the magnitude of the preference, and whether the distinction matters for selecting candidates. The WCA-to-LJ rank reversal is mechanistic because the WCA reference is artificial, while the seven changes to the top-24 shortlist upon restoring electrostatics are more relevant to charge-free screening approximations. Neither result demonstrates separation-process superiority; process-scale rankings depend on loading, mixtures, transport, and cycle constraints \cite{farmahini2020process,farmahini2021screening}.
+ 
+ The decomposition is an intentionally ordered free-energy comparison, not an experimentally unique partition of interaction energies. The panel's limited chemical diversity, charge assignment, and rigid-framework assumption should therefore accompany every transfer claim. Independent-family simulations and alternative electrostatic models are needed to learn whether these fingerprints remain informative outside the present population.
+ 
+@@ -234,6 +241,6 @@
+ Extended methods, force-field details, statistical precision checks, family and shortlist analyses, supplementary figures, and a source-data inventory (PDF); tabulated analysis data and figure-generation code (ZIP).
+ 
+ \section*{Data Availability}
+-The framework-level results, source tables, derived statistical analyses, figure-generation code, and provenance manifests are supplied with the electronic supporting data for this manuscript. The original framework structure files and complete primary simulation input decks are not present in this release; consequently, the figures and statistics can be reproduced from the supplied tables, but the primary molecular simulations cannot be rerun from this archive alone.
++The framework-level results, matching final saved OOF predictions, statistical analyses, explicit figure sources, code and provenance manifests are supplied in the companion repository, \url{https://github.com/alimardani76/bundle_molsim}. The unchanged 238-framework cohort supports regeneration of the numerical results and figures without model refitting. The original structural and per-job simulation inputs are not supplied as a complete runnable set; fresh molecular simulation is therefore outside the reproducibility claim of this release.
+ \bibliography{references}
+ \end{document}
+--- original_v9/requirements.txt
++++ reconciled/requirements.txt
+@@ -1,5 +1,14 @@
+-numpy>=1.24,<3
+-pandas>=2.0,<3
+-matplotlib>=3.7,<4
+-scipy>=1.11,<2
+-Pillow>=10,<13
++contourpy==1.4.0
++cycler==0.12.1
++fonttools==4.68.0
++kiwisolver==1.5.1
++matplotlib==3.11.2
++numpy==2.5.4
++packaging==26.3
++pandas==2.3.3
++pillow==12.3.0
++pyparsing==3.3.3
++python-dateutil==4.0.0
++pytz==2026.6
++scipy==1.18.1
++tzdata==2026.6
+--- original_v9/run_figures_windows.bat
++++ reconciled/run_figures_windows.bat
+@@ -1,10 +1,14 @@
+ @echo off
+ setlocal
+ cd /d "%~dp0"
+-echo Rebuilding original-data figures from the authoritative v2 source tables...
+-python scripts\regenerate_figures.py
++echo Rebuilding final results and figures from the reconciled scientific sources...
++python scripts\make_figures.py
+ if errorlevel 1 (echo FIGURE REBUILD FAILED & exit /b 1)
+-python scripts\verify_package.py
++python scripts\verify_package.py --prepare-checksums
+ if errorlevel 1 (echo PACKAGE VERIFICATION FAILED & exit /b 1)
++python scripts\write_checksums.py
++if errorlevel 1 (echo CHECKSUM WRITE FAILED & exit /b 1)
++python scripts\check_checksums.py
++if errorlevel 1 (echo CHECKSUM VERIFICATION FAILED & exit /b 1)
+ echo Complete. See figures\ and quality_control\.
+-pause
++exit /b 0
+--- original_v9/scripts/regenerate_figures.py
++++ reconciled/scripts/regenerate_figures.py
+@@ -1,18 +1,17 @@
+ #!/usr/bin/env python3
+-"""Publication figure regeneration for Selectivity Origin Map v7.
++"""Rebuild the reconciled v9 figures from explicit tracked numerical sources.
+ 
+ Usage: python scripts/regenerate_figures.py
+ The program works from any working directory; original simulations are NOT rerun.
+-Inputs: data/authoritative/mechanism_238_authoritative.csv and versioned source
+-files copied verbatim from the original v2 publication archive.
++Inputs: explicit data/figure_sources CSVs exported from the unchanged cohort
++and restored saved final 14-feature out-of-fold predictions.
+ Outputs: 6 main + 4 SI + original-data-driven TOC plots (PDF/PNG/TIFF),
+ summary JSON, provenance QA and figure CSVs.
+ 
+ IMPORTANT: Original voxel-resolved insertion maps were absent from supplied
+-archive. This script never fabricates fields. Original v5 SI spatial figures are
+-retained separately for provenance, and excluded from redrawn main figures.
++analytical release. This script never fabricates fields or refits models.
+ """
+-import sys,json,hashlib,logging,datetime
++import sys,json,hashlib,logging,datetime,argparse
+ from pathlib import Path
+ import numpy as np
+ import pandas as pd
+@@ -51,6 +50,8 @@
+    with Image.open(fn) as im:
+     compressed=fn.with_suffix('.compressed.tiff')
+     im.save(compressed,compression='tiff_deflate',dpi=(600,600))
++   # Pillow can retain the TIFF source handle on Windows after __exit__.
++   im.close()
+    compressed.replace(fn)
+   logging.info('%s %s bytes',fn.relative_to(BASE),fn.stat().st_size)
+  plt.close(fig)
+@@ -142,10 +143,10 @@
+  label(ax,'a','What the selected pore descriptors predict')
+  ax=axes[1];ratio=geo.mae/geo.baseline_mae
+  ax.barh(y,ratio,color=colors,height=.59,alpha=.95)
+- ax.axvline(1,color=GREY,lw=1.2,ls='--',label='Median baseline')
+- ax.set_yticks(y,names);ax.invert_yaxis();ax.set_xlim(0,1.23);ax.set_xlabel('MAE / median-predictor MAE (lower is better)')
++ ax.axvline(1,color=GREY,lw=1.2,ls='--',label='Full-cohort median reference')
++ ax.set_yticks(y,names);ax.invert_yaxis();ax.set_xlim(0,1.23);ax.set_xlabel('MAE / full-cohort median-reference MAE')
+  for i,v in enumerate(ratio):ax.text(min(v+.022,1.14),i,f'{v:.2f}',va='center',fontsize=10,color=INK)
+- ax.legend(loc='lower right',frameon=False,fontsize=9)
++ ax.legend(loc='lower right',frameon=False,fontsize=8)
+  label(ax,'b','Electrostatics gains almost nothing over baseline')
+  # Panel titles carry the comparison
+  savefig(fig,'fig3_geometry_information')
+@@ -229,7 +230,7 @@
+   ax.text(x,m-.48,rf'$\ln S={m:.2f}$',color=INK,ha='center',fontsize=9)
+  ax.plot(xs,med,color=INK,lw=2.2,zorder=2);ax.axhline(0,color=GREY,ls='--',lw=1)
+  ax.set_xlim(-.15,6.05);ax.set_ylim(-1.15,4.45);ax.set_axis_off()
+- ax.text(.01,.08,'One framework panel. Three nested potentials. Distinct physical roles.',transform=ax.transAxes,fontsize=9.5,color=INK)
++ ax.text(.5,-.12,'One framework panel. Three nested potentials. Distinct physical roles.',transform=ax.transAxes,ha='center',fontsize=9.5,color=INK)
+  savefig(fig,'TOC_interaction_stages','toc')
+ 
+ 
+@@ -241,7 +242,7 @@
+  assert d.family.value_counts().to_dict()=={'DB0-m15':210,'DB0-m12':28}
+  fig,axes=plt.subplots(1,3,figsize=(12.8,4.5),gridspec_kw={'width_ratios':[.83,1.28,1.05]})
+  fig.subplots_adjust(wspace=.41)
+- ax=axes[0];fams=['DB0-m15','DB0-m12'];ns=[210,28]
++ ax=axes[0];fams=['DB0-m15','DB0-m12'];ns=[int((d.family==f).sum()) for f in fams]
+  ax.barh([0,1],ns,color=[BLUE,TEAL],height=.55)
+  for i,n in enumerate(ns):ax.text(n+3,i,f'{n} / 238',va='center',fontsize=10,color=INK)
+  ax.set_yticks([0,1],fams);ax.set_xlim(0,270);ax.invert_yaxis()
+@@ -258,7 +259,9 @@
+  ax.legend(frameon=False,loc='upper right',fontsize=8)
+  label(ax,'b','Within-family responses differ')
+  ax=axes[2]
+- trans=['WCA to LJ','LJ to full'];together=[0,17];different=[24,7]
++ trans=['WCA to LJ','LJ to full']
++ top=[set(d.sort_values([c,'mof_id'],ascending=[False,True]).head(24).mof_id) for c in ['lnS_wca','lnS_lj_only','lnS_full']]
++ together=[len(top[0]&top[1]),len(top[1]&top[2])];different=[24-n for n in together]
+  ax.barh([0,1],together,color=TEAL,height=.53,label='Retained candidates')
+  ax.barh([0,1],different,left=together,color=CORAL,height=.53,label='Replaced candidates')
+  for i,(n,m) in enumerate(zip(together,different)):
+@@ -306,14 +309,21 @@
+ def main():
+  df=pd.read_csv(BASE/'data/authoritative/mechanism_238_authoritative.csv')
+  s1=pd.read_csv(BASE/'data/source_v2/figure_1_source.csv');s2=pd.read_csv(BASE/'data/source_v2/figure_2_source.csv')
+- geo=pd.read_csv(BASE/'data/authoritative/geometry_cv_FINAL_v5_transcribed.csv')
+- pairs=pd.read_csv(BASE/'data/source_v2/figure_4_source.csv')
+- represent=pd.read_csv(BASE/'data/source_v2/figure_5_source.csv')
++ source=BASE/'data/figure_sources'
++ geo=pd.read_csv(source/'figure_3.csv')
++ pairs=pd.read_csv(source/'figure_4_pair.csv')
++ represent=pd.read_csv(source/'figure_5_cases.csv')
+  errproof(df,s1,s2)
+  assert set(pairs.mof_a).union(set(pairs.mof_b)).issubset(set(df.mof_id))
+  assert set(represent.mof_id).issubset(set(df.mof_id))
+  assert len(geo)==4
+- make_fig1(df);make_fig2(df);make_fig3(geo);make_fig4(df,pairs);make_fig5(df,represent);make_fig6(df);make_si(df);make_si_extended(df);toc(df)
++ read=lambda file:pd.read_csv(source/file)
++ make_fig1(read('figure_1.csv'));make_fig2(read('figure_2.csv'));make_fig3(geo)
++ make_fig4(read('figure_4_values.csv'),pairs);make_fig5(read('figure_5_population.csv'),represent)
++ make_fig6(read('figure_6.csv'));make_si(read('figure_S1_S2.csv'))
++ # The shared extended function reads family coordinates and shortlist states.
++ family=read('figure_S3.csv');membership=read('figure_S4.csv')
++ make_si_extended(family.merge(membership,on=['mof_id','lnS_wca'],validate='one_to_one'));toc(read('TOC.csv'))
+  r1=spearmanr(df.delta_lnS_attr,df.delta_lnS_elec).statistic
+  rank=lambda x:df[x].rank(ascending=False,method='min')
+  sumry={ 'population_n':len(df),'wca_negative_n':int((df.lnS_wca<0).sum()),'lj_positive_n':int((df.lnS_lj_only>0).sum()),
+@@ -322,12 +332,14 @@
+   'median_attr_multiplier':float(np.exp(df.delta_lnS_attr.median())),'median_elec_multiplier':float(np.exp(df.delta_lnS_elec.median())),
+   'spearman_attr_elec':float(r1), 'rank_rho_wca_lj':float(spearmanr(rank('lnS_wca'),rank('lnS_lj_only')).statistic),
+   'rank_rho_lj_full':float(spearmanr(rank('lnS_lj_only'),rank('lnS_full')).statistic),
+-  'max_telescoping_residual':float(np.abs(df.telescoping_residual).max()),
++  'max_telescoping_residual':float(np.abs(df.lnS_full-(df.lnS_wca+df.delta_lnS_attr+df.delta_lnS_elec)).max()),
+   'wca_nominal_95_interval_crosses_zero_n':int(((df.lnS_wca+1.96*df.lnS_wca_se)>=0).sum()),
+   'wca_SE_above_0p1_n':int((df.lnS_wca_se>.1).sum()),
+-  'top24_overlap_wca_to_lj':0,'top24_overlap_lj_to_full':17,'family_m15_n':210,'family_m12_n':28,'fsc_suffix_n':171,
+-  'input_source':'v2 source_data + original v2 authoritative 238 table + v5 transcribed geometry table',
+-  'limits':'No original voxel grids, CIF coordinates or exact v5 geometry CV prediction vectors included.'}
++  'top24_overlap_wca_to_lj':len(set(df.nlargest(24,'lnS_wca').mof_id)&set(df.nlargest(24,'lnS_lj_only').mof_id)),
++  'top24_overlap_lj_to_full':len(set(df.nlargest(24,'lnS_lj_only').mof_id)&set(df.nlargest(24,'lnS_full').mof_id)),
++  'family_m15_n':int(df.mof_id.str.startswith('DB0-m15_').sum()),'family_m12_n':int(df.mof_id.str.startswith('DB0-m12_').sum()),'fsc_suffix_n':int(df.mof_id.str.endswith('_fsc').sum()),
++  'input_source':'unchanged 238-framework cohort; explicit figure_sources; restored final 14-feature saved OOF predictions',
++  'limits':'Saved-prediction statistics and plots reproduced; no model refitting, molecular simulation, or voxel-field replay.'}
+  (QA/'regenerated_metrics.json').write_text(json.dumps(sumry,indent=2,ensure_ascii=False)+'\n')
+  h=[]
+  for path in sorted((BASE/'data').rglob('*')):
+@@ -335,4 +347,5 @@
+  (QA/'input_hashes.sha256').write_text('\n'.join(h)+'\n')
+  print(json.dumps(sumry,indent=2,ensure_ascii=False))
+  print('PASS: raw-to-authoritative checks, nested identity, 6 main + 4 SI figures and TOC; TIFF/PNG/PDF')
+-if __name__=='__main__': main()
++if __name__=='__main__':
++ argparse.ArgumentParser(description=__doc__).parse_args();main()
+--- original_v9/scripts/verify_package.py
++++ reconciled/scripts/verify_package.py
+@@ -1,34 +1,67 @@
+-"""JCTC-only release validation, independent of TeX tools and external internet."""
++"""Verify the reconciled scientific release, documents and checksums."""
+ from pathlib import Path
+-import json,hashlib,sys
+-import pandas as pd,numpy as np
++import argparse,hashlib,json,re
++import numpy as np
++import pandas as pd
++from audit_final_evidence import run as audit
+ ROOT=Path(__file__).resolve().parents[1]
+-F=ROOT/'figures'; Q=ROOT/'quality_control';d=pd.read_csv(ROOT/'data/authoritative/mechanism_238_authoritative.csv')
+-errors=[]
+-def check(cond,msg):
+- if not cond:errors.append(msg)
+-check(d.shape[0]==238 and d.mof_id.is_unique,'wrong or duplicated analysis population')
+-check(np.max(np.abs(d.lnS_full-d.lnS_wca-d.delta_lnS_attr-d.delta_lnS_elec))<1e-10,'nested identity fails')
+-check(d.lnS_wca.max()<0 and d.delta_lnS_attr.min()>0 and d.delta_lnS_elec.min()>0,'claimed sign rule fails')
+-for s,n in [('main',6),('si',4),('toc',1)]:
+- for ext in ['pdf','png','tiff']:
+-  nfiles=len(list((F/s).glob('*.'+ext)))
+-  check(nfiles==n,f'{s}/{ext}: expected {n}, found {nfiles}')
+-for p in [ROOT/'manuscript/main.pdf',ROOT/'supporting_information/supporting_information.pdf']:
+- check(p.exists() and p.stat().st_size>20000 and p.read_bytes()[:4]==b'%PDF',f'missing/corrupt {p.relative_to(ROOT)}')
+-for name in ['figure_1_source.csv','figure_2_source.csv','figure_3_source.csv','figure_4_source.csv','figure_5_source.csv']:
+- check((ROOT/'data/source_v2'/name).exists(),f'missing source {name}')
+-check((Q/'regenerated_metrics.json').exists(),'missing regenerated metric summary')
+-check((ROOT/'data/derived_v7/v7_new_results.json').exists(),'missing derived results summary')
+-check((ROOT/'scripts/export_derived_tables.py').exists(),'missing independent derived-table script')
+-# The input hashes are generated by plot script and intentionally exclude compiled PDFs
+-hashes=Q/'input_hashes.sha256'
+-check(hashes.exists(),'missing input hash record')
+-if hashes.exists():
+- for line in hashes.read_text().splitlines():
+-  digest,path=line.split('  ',1);p=ROOT/path
+-  check(p.exists() and hashlib.sha256(p.read_bytes()).hexdigest()==digest,'hash mismatch: '+path)
+-report={'status':'PASS' if not errors else 'FAIL','errors':errors,'number_of_main_figures':6,'number_of_si_figures':4,'population':238,'notes':'Final v5 geometry metric table is archival transcription, not a new CV refit.'}
+-(Q/'release_check.json').write_text(json.dumps(report,indent=2)+'\n')
+-print(json.dumps(report,indent=2))
+-sys.exit(0 if not errors else 2)
++
++def run(check_hashes=True):
++    errors=[];checks=[]
++    def check(ok,name):
++        checks.append(dict(check=name,status='PASS' if ok else 'FAIL'))
++        if not ok:errors.append(name)
++    numeric=audit()
++    check(numeric['status']=='PASS','independent final numerical evidence')
++    d=pd.read_csv(ROOT/'data/authoritative/mechanism_238_authoritative.csv');ix=d.set_index('mof_id')
++    cols=['geom_df','geom_di','geom_dif','geom_density','geom_asa','geom_avaf','geom_navaf','geom_poavaf','geom_npoavaf']
++    z=d[cols].to_numpy();s=z.std(axis=0);z=(z-z.mean(axis=0))/np.where(s==0,1,s)
++    matrix=np.sqrt(np.sum((z[:,None,:]-z[None,:,:])**2,axis=2));np.fill_diagonal(matrix,np.inf)
++    ai,bi=np.triu_indices(238,1);pair_order=np.argsort(matrix[ai,bi],kind='stable');subset=pair_order[:564]
++    recon=pd.read_csv(ROOT/'data/final/pair_selection_reconciliation.csv')
++    for target,field in [('attraction','delta_lnS_attr'),('electrostatic','delta_lnS_elec')]:
++        winner=subset[np.argmax(abs(d[field].to_numpy()[ai[subset]]-d[field].to_numpy()[bi[subset]]))]
++        row=recon[(recon.target==target)&(recon.rule=='all_pairs_closest_2_percent')].iloc[0]
++        check({row.mof_a,row.mof_b}=={d.loc[ai[winner],'mof_id'],d.loc[bi[winner],'mof_id']},target+' exhaustive optimum')
++        example=recon[(recon.target==target)&(recon.role=='retained_illustrative_case')].iloc[0]
++        check({example.mof_a,example.mof_b}!={row.mof_a,row.mof_b},target+' illustrative example distinguished from all-pair optimum')
++    for p in sorted((ROOT/'data/figure_sources').glob('*.csv')):
++        t=pd.read_csv(p)
++        if 'mof_id' in t:
++            check(t.mof_id.is_unique and set(t.mof_id)<=set(ix.index),p.name+' cohort IDs')
++            for col in set(t.columns)&set(ix.columns):
++                if pd.api.types.is_numeric_dtype(t[col]):check(np.allclose(t[col],ix.loc[t.mof_id,col],atol=1e-12,rtol=0),p.name+' '+col)
++        if p.name=='figure_3.csv':
++            reference=pd.read_csv(ROOT/'data/final/geometry_cv_metrics.csv')
++            check(t.target.equals(reference.target) and np.allclose(t.select_dtypes('number'),reference.select_dtypes('number'),atol=1e-14,rtol=0),'Figure 3 uses saved-final-OOF metrics')
++    for folder,stem,n in [('manuscript','main',6),('supporting_information','supporting_information',4)]:
++        tex=(ROOT/folder/(stem+'.tex')).read_text(encoding='utf8')
++        refs=re.findall(r'\\includegraphics(?:\[[^]]*\])?\{([^}]+)\}',tex)
++        check(len(refs)==n,stem+' exact figure inclusion count')
++        for name in refs:check(sum((ROOT/'figures'/s/name).is_file() for s in ['main','si'])==1,stem+' resolves '+name)
++        check(not re.search(r'\\{2,}(rho|cite)',tex),stem+' TeX command escapes')
++        check('final out-of-fold prediction vectors, voxel arrays' not in tex,stem+' restored prediction availability')
++        p=ROOT/folder/(stem+'.pdf');check(p.is_file() and p.read_bytes().startswith(b'%PDF') and p.stat().st_size>20000,stem+' built PDF')
++        if stem=='main':check('fig4_matched_contrast.pdf' in refs,'matched-pair figure included')
++        else:check(r'\renewcommand{\thefigure}{S\arabic{figure}}' in tex and r'\renewcommand{\thetable}{S\arabic{table}}' in tex,'SI figure/table S numbering')
++        log=ROOT/folder/(stem+'.log')
++        if log.is_file():check(not re.search(r'(undefined|There were undefined|Rerun to get cross-references right|Overfull \\hbox)',log.read_text(errors='replace'),re.I),stem+' final LaTeX diagnostics')
++    for sub,n in [('main',6),('si',4),('toc',1)]:
++        for ext in ['pdf','png','tiff']:check(len(list((ROOT/'figures'/sub).glob('*.'+ext)))==n,sub+' '+ext+' count')
++    build=ROOT/'quality_control/document_build.json';check(build.is_file(),'scratch document build record')
++    if build.is_file():
++        for path,digest in json.loads(build.read_text())['artifacts'].items():check(hashlib.sha256((ROOT/path).read_bytes()).hexdigest()==digest,'built document matches '+path)
++    if check_hashes:
++        for filename in ['SHA256SUMS.txt','input_hashes.sha256']:
++            mf=ROOT/'quality_control'/filename;check(mf.is_file(),filename+' exists')
++            if mf.is_file():
++                for line in mf.read_text().splitlines():
++                    if not line.strip():continue
++                    digest,path=line.split('  ',1);p=ROOT/path
++                    check(p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==digest,filename+' '+path)
++    report=dict(status='PASS' if not errors else 'FAIL',errors=errors,numerical_checks=numeric['checks'],release_checks=len(checks),frameworks=238,geometry_OOF_rows=952,main_figures=6,SI_figures=4,TOC=1,model_refit=False,fresh_simulation=False,hashes_checked=check_hashes)
++    (ROOT/'quality_control/release_check.json').write_text(json.dumps(report,indent=2)+'\n')
++    print(json.dumps(report,indent=2));return report
++if __name__=='__main__':
++    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--prepare-checksums',action='store_true',help='Audit before writing a new manifest; not sufficient as the final publication gate');args=parser.parse_args()
++    raise SystemExit(0 if run(not args.prepare_checksums)['status']=='PASS' else 2)
+--- original_v9/supporting_information/supporting_information.tex
++++ reconciled/supporting_information/supporting_information.tex
+@@ -13,6 +13,9 @@
+ \small $^{*}$Correspondence: asgarimehrdad89@gmail.com}
+ \date{}
+ 
++\renewcommand{\thefigure}{S\arabic{figure}}
++\renewcommand{\thetable}{S\arabic{table}}
++\renewcommand{\theequation}{S\arabic{equation}}
+ \begin{document}
+ \maketitle
+ \tableofcontents
+@@ -27,9 +30,9 @@
+ Evidence type & Available source & What is independently reproducible\\\midrule
+ Nested selectivity coordinates & 238-row authoritative CSV & All interaction-coordinate plots, sign counts, ranking differences\\
+ Version-2 figure tables & Five archived figure-source CSV files & Archived figure inputs and historical differences\\
+-Final geometry metrics & Version-5 summary-metric CSV & Plot of reported summary metrics, not a new model fit\\
++Final geometry evidence & Restored 14-feature manifest and saved OOF predictions & Metric and bootstrap recomputation without model refitting\\
+ Microscopic simulations & CIF files, complete input decks and run-level raw trajectories not supplied & Not independently rerunnable from this package\\
+-Spatial insertion fields & Rendered legacy PDFs, original numerical voxel arrays absent & Historical visuals only; no new voxel figures\\\bottomrule\end{tabularx}\end{table}
++Spatial insertion fields & Historical rendered maps outside this analytical release & No voxel-field replay or new spatial figures\\\bottomrule\end{tabularx}\end{table}
+ 
+ For readers unfamiliar with the underlying simulation, a Henry coefficient describes the initial slope of adsorbed amount with respect to gas fugacity at low pressure. A selectivity constructed from two Henry coefficients describes relative uptake preference when interactions among adsorbed guest molecules can be neglected. This is a carefully defined equilibrium limit, not a complete separation-process prediction. A high Henry selectivity can occur for a framework with very small useful working capacity, and a ranking at low pressure can change when adsorption sites begin to fill.
+ 
+@@ -84,7 +87,7 @@
+ 
+ \section{WCA sampling, pooling, and precision}
+ 
+-The final WCA archive contains 2,052 jobs. Independent equal-length seeds were pooled through
++The archive contains 2,052 gas-specific WCA jobs: 2,034 contribute to the retained 238-framework cohort, and 18 belong to the two excluded structures (six and twelve jobs, respectively). Their identities and job rows are recorded in the released provenance tables. Independent equal-length seeds were pooled through
+ \begin{equation}
+ B_k=\exp[-\mu_k^{\rm ex}/(RT)],
+ \end{equation}
+@@ -126,7 +129,7 @@
+ 
+ \begin{table}[H]
+ \centering
+-\caption{Five-fold cross-validated geometry-only prediction. Baseline MAE is the error of a median predictor.}
++\caption{Five-fold cross-validated geometry-only prediction. The reference MAE is the error of the full-cohort target median, not an out-of-fold fitted baseline.}
+ \begin{tabular}{lrrr}
+ \toprule
+ Target & $R^2$ & MAE & Baseline MAE\\
+@@ -139,11 +142,11 @@
+ \end{tabular}
+ \end{table}
+ 
+-Target-derived adsorption quantities, identifiers, filenames, cluster labels, and other variables capable of encoding the target were excluded before fitting. The complete descriptor manifest and out-of-fold prediction table are provided as source data.
++The restored 14-feature manifest contains only the pre-simulation geometry columns; the archived pipeline excludes target-derived adsorption quantities and identifiers. Median imputation and standardization are inside the training-fold pipeline according to the inspected source. The saved geometry OOF table has 952 rows (238 frameworks for four targets) and reproduces the reported scores without refitting. Fold membership is reconstructed from the archived KFold protocol, seed 20260918 and unchanged source row order; it was not independently saved as a historical fold file. The full-cohort median is used only as a descriptive reference for the MAE ratio. Source code inspection and saved-prediction arithmetic do not constitute a fresh training replay.
+ 
+ \section{Geometry-matched pairs}
+ 
+-Pairs were selected from the closest 2\% of all pairs in the standardized nine-descriptor geometry space and ranked by contrast in the target mechanism coordinate.
++The original illustrative selector uses each framework's three nearest neighbors in the standardized nine-descriptor space, retains only source-row pairs with $i<j$, and keeps the lower distance quartile of the resulting 384 candidates. Maximizing the coordinate contrast within those 96 candidates yields the retained examples below. This row-order-dependent candidate construction differs from an exhaustive all-pair search. We preserve its examples and separately enumerate the closest 2\% of all 28,203 pairs (564 candidates) in the reconciled analysis. The original code establishes the implemented operation, not an independently verified preregistration date.
+ 
+ \begin{table}[H]
+ \centering
+@@ -159,6 +162,8 @@
+ \bottomrule
+ \end{tabular}
+ \end{table}
++
++The all-pair optima are distinct from the illustrative cases: M099/M136 maximizes attraction contrast within the 564-pair set (geometry distance 0.463; attraction contrast 1.367), and M043/M085 maximizes electrostatic contrast (distance 0.395; electrostatic contrast 1.892). Their full identifiers, candidate sets, exact values and original alias mapping are released in the pair-selection reconciliation tables. The retained M089/M192 and M029/M085 figures and scalar values are unchanged and are not presented as these exhaustive optima.
+ 
+ M089/M192 have standardized geometry distance 0.199; M192 is the nearest geometry neighbor of M089 and M089 is the third-nearest neighbor of M192. Their attractive increments differ by 0.658.
+ 
+@@ -180,7 +185,7 @@
+ \label{fig:si_gas}
+ \end{figure}
+ 
+-The earlier v5 archive includes rendered local electrostatic insertion maps and describes a $0.75$~\AA{} grid, probability-supported voxel weighting and orientation convergence tests. However, raw voxel arrays and the original CIF geometries were not supplied. These renderings are retained separately in \texttt{figures/legacy\_spatial/} as historical records, not as newly redrawn or independently replicated fields. The quantitative matched-pair statement in the main text relies on reproducible global Henry coefficients rather than unavailable field data.
++The earlier v5 archive includes rendered local electrostatic insertion maps and describes a $0.75$~\AA{} grid, probability-supported voxel weighting and orientation convergence tests. Those historical renderings and their spatial grids are outside this clean analytical release. The quantitative matched-pair statement relies on the verified global Henry coefficients; no new spatial field or microscopic mechanism attribution is inferred from rendered maps.
+ 
+ For the M029/M085 matched pair, the global CO$_2$ full-minus-LJ log-Henry increments are 0.162 and 2.032, while N$_2$ increments are 0.021 and 0.032. The between-material difference is approximately 1.871 log units for CO$_2$ but only 0.011 for N$_2$. Thus the large selectivity contrast is dominated by the CO$_2$ response in the available calculations.
+ 
+@@ -249,11 +254,11 @@
+ \end{tabular}
+ \end{table}
+ 
+-\noindent\textit{Data provenance note.} The archived v5 plot of the alternative-force-field WCA bridge is retained in \texttt{figures/legacy\_spatial/} but was not redrawn because its per-point numerical bridge table was not included among the v2 figure-source files. Its reported aggregate metrics are carried forward as historical results only; direct reanalysis requires the underlying simulation records.
++\noindent\textit{Data provenance note.} The reconciled release restores 90 matched seed rows and 30 framework/gas mean rows for this bridge. Its reported aggregate MAE, maximum shifts and rank correlations are independently reaggregated from those rows. This reanalysis does not rerun the alternative-force-field simulations or reproduce the legacy rendered plot.
+ 
+ \section{Version-specific prediction metrics and cross-validation caution}
+ 
+-The version-2 \texttt{figure\_3\_source.csv} file contains random-five-fold results for a previous model specification, with $R^2=0.032$ for the electrostatic increment. The version-5 SI and manuscript subsequently reported a frozen geometry-control evaluation with $R^2=0.188$, MAE $0.146$ and median-predictor MAE $0.147$. Version 9 reproduces the \emph{display} of the latter metrics and checks its underlying table for completeness; it does not claim to have re-fit the version-5 model because the original fold-level predictions are absent from the supplied archive. The earlier group-holdout metrics are preserved as a sensitivity dataset, not treated as if computed by the final model.
++The version-2 \texttt{figure\_3\_source.csv} file contains results for an earlier model, including electrostatic $R^2=0.032$. The final 14-feature evaluation reported $R^2=0.188$, MAE $0.146$ and full-cohort median-reference MAE $0.147$. The initial v9 ZIP contained only a transcription of those final metrics. The reconciled release restores their matching archived OOF vectors, feature manifest, fitting-protocol source and bootstrap records. Metrics and confidence intervals are recomputed from those saved vectors without fitting a model. A neighboring 25-feature descriptor analysis produces different scores and is not substituted. The earlier v2 group-holdout results remain historical sensitivity evidence with a different model specification.
+ 
+ The difference is important when interpreting numerical evidence. Reporting the later random-CV numbers beside earlier group-holdout numbers without qualification could imply an invalid controlled comparison. Accordingly, the main text reports the frozen version-5 numbers and describes the version-2 holdouts only qualitatively as an indication that extrapolation beyond related framework families can be difficult.
+ 
+@@ -292,23 +297,26 @@
+ 
+ \section{Practical instructions to reproduce the manuscript figures}
+ 
+-The script \texttt{scripts/regenerate\_figures.py} accepts the source CSVs and generates the five original main-data figures, the new family/shortlist main figure, the extended SI figures, and a table-of-contents graphic. It does not call RASPA or LAMMPS, download structural data, or infer missing numerical voxel fields. The companion \texttt{scripts/export\_derived\_tables.py} writes derived family and shortlist tables so that every number used in the expanded narrative is separately inspectable.
++The script \texttt{scripts/regenerate\_figures.py} accepts the source CSVs and generates the five original main-data figures, the new family/shortlist main figure, the extended SI figures, and a table-of-contents graphic. It does not call RASPA or LAMMPS, download structural data, or infer missing numerical voxel fields. The companion \texttt{scripts/make\_results.py} writes the final coordinate, family, shortlist, endpoint and pair-selection reconciliation tables and exports the explicit figure inputs; all calculations use the preserved cohort and saved prediction evidence.
+ 
+ From the extracted package root on Windows, the core commands are:
+ \begin{verbatim}
+ python -m pip install -r requirements.txt
+-python scripts/export_derived_tables.py
+-python scripts/regenerate_figures.py
++python scripts/make_results.py
++python scripts/make_figures.py
++python scripts/verify_package.py --prepare-checksums
++python scripts/write_checksums.py
+ python scripts/verify_package.py
+ \end{verbatim}
+ 
+-The exact file names needed for a rerun are documented in \texttt{README\_START\_HERE.md} and a SHA-256 manifest. For clarity, the key input files are:
++The exact file names needed for analytical regeneration are documented in \texttt{README.md} and a SHA-256 manifest. For clarity, the key input files are:
+ \begin{verbatim}
+ data/authoritative/mechanism_238_authoritative.csv
+-data/authoritative/geometry_cv_FINAL_v5_transcribed.csv
+-data/source_v2/figure_1_source.csv
+-...
+-data/source_v2/figure_5_source.csv
++data/final/geometry_oof_predictions.csv
++data/final/geometry_cv_metrics.csv
++data/provenance/descriptor_hierarchy_predictions.csv
++data/figure_sources/
++data/figure_sources/SOURCE_MAP.json
+ \end{verbatim}
+ The figure generator saves vector PDF files for placement in LaTeX and losslessly compressed TIFF and PNG images for editorial use. Font sizes, line weights and color assignments are set in one central section at the beginning of the Python file. A reproducibility check verifies that all 238 identifiers are unique, that input source tables agree with authoritative data, and that the nested increment identity closes numerically. A failure raises an explicit Python error rather than silently producing visually plausible but inconsistent figures. The output summary \texttt{quality\_control/regenerated\_metrics.json} also records central numerical quantities.
+ 
+@@ -324,7 +332,7 @@
+ 
+ \textbf{Low-pressure thermodynamics versus process performance.} Henry selectivity does not provide mixture working capacity, competitive adsorption at elevated loading, diffusion rates, regeneration energy or hydrothermal stability. An application-driven follow-up would require all of these, as appropriate to the process, before claiming improved carbon-capture performance.
+ 
+-\textbf{Reproducibility tiers.} The numerical paper figures are reproducible from the supplied CSV files; redoing the underlying molecular simulation from first principles requires framework CIFs, force-field inputs and seeded job records not supplied in the initial archive. We explicitly identify this gap to avoid conflating plot-level and simulation-level reproducibility.
++\textbf{Reproducibility tiers.} The numerical paper figures and final OOF metrics are regenerated from the supplied CSV files without refitting. Fresh molecular simulation additionally requires the complete primary CIF, input-deck and executable set; that replay is not claimed for this analytical release. We explicitly identify this gap to avoid conflating plot-level and simulation-level reproducibility.
+ 
+ 
+ \section{Thermodynamic meaning of the insertion averages}
+@@ -343,7 +351,7 @@
+ 
+ The framework-bootstrap interval reported in the earlier archive operates at a different level. It draws frameworks with replacement and recalculates the median or correlation on each synthetic sample. It thus describes sampling variability conditional on the observed population composition. It is not a simulation-seed bootstrap, does not replace uncertainties in the input molecular potentials, and does not simulate the probability of drawing an unrelated MOF chemistry from the world's known structures. The two types of uncertainty must not be interchanged in the presentation.
+ 
+-A third form of uncertainty concerns the fitted geometry controls. The final published cross-validation summary was retained as a table transcribed from version 5, whereas full prediction vectors, saved estimators, fold memberships and every preprocessing operation were not provided in the source ZIP. We can reliably reproduce the display of its published metrics and verify their internal formatting, but cannot claim an independent exact rerun of that final fit. The earlier version-2 model and its holdouts can be archived for provenance while being clearly distinguished from the later final specification.
++A third form of uncertainty concerns the fitted geometry controls. The initial v9 ZIP retained the final cross-validation summary as a transcription. The reconciled release restores the matching archived geometry OOF vectors and the 14-feature manifest and recomputes their metrics and bootstrap intervals. Fold metadata are reconstructed from the archived KFold seed and unchanged input ordering; the inspected source places preprocessing inside the training folds. Saved estimators were not restored and no model fit was rerun. The earlier version-2 model and the neighboring 25-feature analysis remain distinct from this final 14-feature evidence.
+ 
+ \section{Why the two family-specific correlations should not be overinterpreted}
+ 
+@@ -362,7 +370,7 @@
+ 
+ \section{Source data and reproducibility}
+ 
+-The accompanying electronic research-data archive includes the authoritative 238-MOF mechanism table, the original five version-2 figure-source CSVs, a separate final version-5 model-metric table transcribed from the manuscript, figure-generation code and its dependencies, redrawn figure output, and checksums. The version-2 figure-3 table uses an earlier model definition and is not substituted for the version-5 main-text scores. The ZIP does not include the original structure files, exact final out-of-fold prediction vectors, voxel arrays, or all simulation force-field inputs. These must be obtained from the originating laboratory archive and publicly deposited, with a permanent data DOI, before any claim of complete simulation-level reproducibility can be made.
++The reconciled release includes the unchanged authoritative 238-MOF mechanism table, archived gas-specific seed summaries, matching final 14-feature geometry OOF predictions, descriptor manifest and source protocol, bootstrap and sensitivity records, explicit figure-source tables, plotting and verification code, final documents and checksums. The earlier version-2 figure-3 data and neighboring 25-feature model are not substituted for the final scores. The recorded molecular protocol and guest/force-field definitions are supplied for provenance, but the release does not provide a complete runnable set of all original CIFs, per-job decks, executable environments or spatial voxel fields. Analytical regeneration is therefore supported; a fresh simulation or model-training replay is not claimed.
+ 
+ \bibliographystyle{unsrt}
+ \bibliography{../manuscript/references}

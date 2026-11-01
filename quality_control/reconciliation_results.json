@@ -1,0 +1,13 @@
+{
+  "population": 238,
+  "cohort_sha256": "f317eef220e6f8757be6aa8d6e4ec29b9bf90e0eeaad8d86009a265b65b1b149",
+  "pair_count": 28203,
+  "all_pair_candidates": 564,
+  "legacy_initial_candidates": 384,
+  "legacy_candidate_n": 96,
+  "legacy_cutoff": 0.25916457244131114,
+  "OOF_status": "PASS_SAVED_PREDICTIONS",
+  "no_model_refit": true,
+  "no_simulation": true,
+  "OOF_rows": 952
+}

@@ -1,0 +1,63 @@
+{
+  "fresh_environment": true,
+  "Python": "3.13.13",
+  "simulation_rerun": false,
+  "model_refit": false,
+  "commands": [
+    {
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pip",
+        "freeze"
+      ],
+      "cwd": "publication repository root",
+      "started_UTC": "2026-11-01T15:23:19.811808+00:00",
+      "exit_code": 0,
+      "log_sha256": "72dec61665e1c12974f6e44a948732ce141b532e7173c5d83eb6614670414a86"
+    },
+    {
+      "command": [
+        ".venv/Scripts/python.exe",
+        "scripts/make_results.py"
+      ],
+      "cwd": "publication repository root",
+      "started_UTC": "2026-11-01T15:23:20.516557+00:00",
+      "exit_code": 0,
+      "log_sha256": "796623b1b8951e51a836938718e59da6419108cc70455d9fcfd6c76c13c2f6a3"
+    },
+    {
+      "command": [
+        "cmd",
+        "/d",
+        "/c",
+        "run_figures_windows.bat"
+      ],
+      "cwd": "publication repository root",
+      "started_UTC": "2026-11-01T15:23:26.172970+00:00",
+      "exit_code": 0,
+      "log_sha256": "2403b6a8f077c13ca6a6e726962628bbfcc42dadd918aeb02eadaab0492588f5"
+    },
+    {
+      "command": [
+        ".venv/Scripts/python.exe",
+        "scripts/build_documents.py"
+      ],
+      "cwd": "publication repository root",
+      "started_UTC": "2026-11-01T15:24:04.660655+00:00",
+      "exit_code": 0,
+      "log_sha256": "6d2a2962c60a6271b5bb809b11c3d48b52eb73ef097f3d98a33a344a1f823932"
+    },
+    {
+      "command": [
+        ".venv/Scripts/python.exe",
+        "scripts/verify_package.py",
+        "--prepare-checksums"
+      ],
+      "cwd": "publication repository root",
+      "started_UTC": "2026-11-01T15:24:13.032236+00:00",
+      "exit_code": 0,
+      "log_sha256": "a207c77c960f5988086148e9ddc68edc040228691c732a6def3181f15eca5c68"
+    }
+  ]
+}

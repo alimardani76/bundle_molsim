@@ -1,0 +1,239 @@
+[
+  {
+    "file": "manuscript/main.tex",
+    "old": "Repeated TeX escapes before rho/cite",
+    "new": "Single TeX command escapes",
+    "evidence": "Original rendered rho/citation keys and TeX source"
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "The geometry analysis used 14 conventional pre-simulation descriptors. Target-derived adsorption quantities, identifiers, filenames, cluster labels, and other variables capable of encoding the target were excluded before fitting. ExtraTrees regressors used 500 trees, minimum leaf size three, a maximum-feature fraction of 0.7, and five-fold shuffled cross-validation with random seed 20260918. The model is used here as a mechanistic control---to test how much of each interaction coordinate is already encoded by pore geometry---rather than as a predictive contribution in its own right. Performance was evaluated with $R^2$, MAE, and median-predictor MAE.",
+    "new": "The geometry analysis used 14 conventional pre-simulation descriptors, separately from the nine descriptors used for pair matching. Target-derived adsorption quantities, identifiers and grouping labels were excluded from this feature set. The archived pipeline used median imputation and standardization within the training folds, followed by ExtraTrees regressors with 500 trees, minimum leaf size three and a maximum-feature fraction of 0.7. Five-fold shuffled cross-validation and the estimator used random seed 20260918. The restored saved out-of-fold predictions reproduce the reported $R^2$ and MAE without refitting. The comparison MAE uses the full-cohort target median as a descriptive reference; it is not an out-of-fold fitted baseline. Fold membership is reconstructed from the archived split protocol and unchanged cohort row order. The model is a mechanistic control for the information in pore geometry rather than a new predictive contribution.",
+    "evidence": "Restored descriptor_fit_archived.py.txt, 14-feature manifest, exact OOF metrics and source SHA matches",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "Matched pairs were selected from the closest 2\\% of all framework pairs in a standardized nine-descriptor geometry space and then ranked by contrast in the target interaction coordinate. The retained attraction pair is M089/M192 and the retained electrostatic pair is M029/M085. M029 and M085 are mutual nearest neighbors in the matching geometry space. Pair selection preceded the spatial interpretation.",
+    "new": "The archived illustrative pairs are M089/M192 for attraction and M029/M085 for electrostatics. Their original selector first formed a list from each framework's three nearest neighbors in the standardized nine-descriptor geometry space, retaining a pair only when its source-row index satisfied $i<j$. It then kept the lower distance quartile of that list and selected the largest coordinate contrasts within this restricted set. The resulting 96-pair set differs from the 564 pairs obtained by retaining the closest 2\\% of all 28,203 pairs. We preserve the original examples and separately report the optima under the all-pair rule in the Supporting Information. M029 and M085 are mutual nearest neighbors; their illustrative contrast is not the all-pair optimum. The archive establishes the implemented rule but does not independently establish a preregistration date.",
+    "evidence": "Independent all-pair enumeration and replay of restored archived selector; data/final/pair_selection_reconciliation.csv",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "Endpoint-mechanism non-uniqueness was evaluated before inspecting pair identities. All 28,203 framework pairs were ranked by",
+    "new": "The archived endpoint-mechanism analysis ranks all 28,203 framework pairs by",
+    "evidence": "Archived bootstrap/endpoint script supports the operation; temporal preregistration is not independently established",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "; the closest 5\\% were retained, and only within this frozen subset were pairs ranked",
+    "new": "; the closest 5\\% are retained, and within that subset pairs are ranked",
+    "evidence": "Same endpoint selection arithmetic; removes unsupported timing assertion",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "We froze an endpoint-matching rule before inspecting pair identities: the closest 5\\%",
+    "new": "Using the archived endpoint-matching rule, the closest 5\\%",
+    "evidence": "Preserves all 1,411 selected pairs and statistics; no independent timestamp evidence",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "below $5\\times10^{-16}$ on the archived authoritative source table.",
+    "new": "below $10^{-12}$ when recomputed from the unchanged authoritative CSV (maximum absolute residual $8.9\\times10^{-16}$ in the audited environment).",
+    "evidence": "Independent arithmetic 8.881784197001252e-16; stored historical residual column is 4.440892098500626e-16",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "(b) MAE normalized by the corresponding median-predictor MAE for the attractive and electrostatic increments; a value of one indicates no practical improvement over the baseline.",
+    "new": "(b) MAE normalized by the full-cohort median-reference MAE for all four targets; a value of one indicates no improvement over that descriptive reference. The bars and bootstrap are recomputed from restored saved final out-of-fold predictions; no model is refitted.",
+    "evidence": "Figure 3 has four bars; restored archived OOF predicts exact final metrics; comparator definition from fit source",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "The preselected electrostatic matched pair M029/M085 provides a stringent local test of the population-level interpretation.",
+    "new": "The retained illustrative electrostatic pair M029/M085 provides a local comparison for the population-level interpretation (Figure~\\ref{fig:matched}).",
+    "evidence": "Correct optimal-versus-example distinction; restores missing figure reference",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "It is worth separating the type of similarity enforced by the matching procedure from chemical identity. A mutual nearest-neighbor relationship in 14 geometry descriptors means that each member is the closest available entry to the other in the selected standardized descriptor space. It does not mean that every pore aperture, surface atom, charge distribution, or adsorption-site orientation is identical. Indeed, the available identifiers describe different topologies and different elemental compositions for M029 and M085. This distinction is a source of scientific leverage, not a flaw: the pair asks how much chemical specificity can be concealed by geometric similarity.",
+    "new": "Similarity in the nine matching descriptors does not establish chemical identity. The mutual nearest-neighbor relationship means that each member is the closest available entry to the other in that selected standardized descriptor space; it does not mean that every aperture, surface atom, charge distribution or adsorption-site orientation is identical. Identifier suffixes provide metadata labels but do not independently establish elemental composition or topology. We therefore base the pair comparison on its verified geometry coordinates and gas-resolved Henry responses, and reserve atomic or topological attribution for a structural analysis.",
+    "evidence": "Nine-descriptor original matching code; CIF/atom-connectivity evidence is outside the released aggregate analysis",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "\\subsection{Consequences for candidate rankings}",
+    "new": "\\begin{figure}[tbp]\n\\centering\n\\includegraphics[width=\\linewidth]{fig4_matched_contrast.pdf}\n\\caption{\\textbf{A retained illustrative geometry-matched pair exhibits different electrostatic responses.} (a) Nested log-selectivity trajectories for M029 and M085, which are mutual nearest neighbors in the nine-descriptor matching space. (b) Full-minus-LJ log Henry increments for each gas. (c) Verified distance and scalar contrasts. These are retained examples from the restricted archived candidate procedure, not the optimal pair under the all-pair closest-2\\% rule; the Supporting Information reports both rules separately.}\n\\label{fig:matched}\n\\end{figure}\n\n\\subsection{Consequences for candidate rankings}",
+    "evidence": "Missing Figure 4 restored from verified existing source/plot; all scalar values retained",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "The full calculation used 50,000 Widom cycles per seed and the LJ-only calculation used 10,000 cycles per seed, with three matched default seeds (58101--58103) and adaptive extension of unresolved cases. Tabulated production results and the earlier analysis scripts are included with the source data; a complete rerun of the original simulations additionally requires the original structural and force-field input files, which were not included in the supplied bundle.",
+    "new": "The archived protocol specifies 50,000 Widom cycles per full-potential seed and 10,000 per LJ-only seed, with three matched default seeds (58101--58103) and adaptive extension of unresolved cases. The release supplies the recorded protocol, molecular parameter records and tabulated gas-specific seed summaries. These support reaggregation of the final statistics; a complete simulation replay additionally requires the full structural inputs, per-job input decks and executable environment, which are not supplied as a complete runnable set.",
+    "evidence": "Restored production_protocol.json and guest/force-field records; no simulation replay performed",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "\\begin{document}",
+    "new": "\\renewcommand{\\thefigure}{S\\arabic{figure}}\n\\renewcommand{\\thetable}{S\\arabic{table}}\n\\renewcommand{\\theequation}{S\\arabic{equation}}\n\\begin{document}",
+    "evidence": "Independent PDF audit: SI figures/tables/equations lacked S prefix",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "Final geometry metrics & Version-5 summary-metric CSV & Plot of reported summary metrics, not a new model fit",
+    "new": "Final geometry evidence & Restored 14-feature manifest and saved OOF predictions & Metric and bootstrap recomputation without model refitting",
+    "evidence": "Restored final 952 geometry OOF records match exact v5 metrics",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "The final WCA archive contains 2,052 jobs.",
+    "new": "The archive contains 2,052 gas-specific WCA jobs: 2,034 contribute to the retained 238-framework cohort, and 18 belong to the two excluded structures (six and twelve jobs, respectively). Their identities and job rows are recorded in the released provenance tables.",
+    "evidence": "WCA base/extension/rescue records and unchanged 238 IDs; no inferred retry assignments",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "Baseline MAE is the error of a median predictor.",
+    "new": "The reference MAE is the error of the full-cohort target median, not an out-of-fold fitted baseline.",
+    "evidence": "Archived descriptor fitting script explicitly repeats y.median() over the full target vector",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "Target-derived adsorption quantities, identifiers, filenames, cluster labels, and other variables capable of encoding the target were excluded before fitting. The complete descriptor manifest and out-of-fold prediction table are provided as source data.",
+    "new": "The restored 14-feature manifest contains only the pre-simulation geometry columns; the archived pipeline excludes target-derived adsorption quantities and identifiers. Median imputation and standardization are inside the training-fold pipeline according to the inspected source. The saved geometry OOF table has 952 rows (238 frameworks for four targets) and reproduces the reported scores without refitting. Fold membership is reconstructed from the archived KFold protocol, seed 20260918 and unchanged source row order; it was not independently saved as a historical fold file. The full-cohort median is used only as a descriptive reference for the MAE ratio. Source code inspection and saved-prediction arithmetic do not constitute a fresh training replay.",
+    "evidence": "Exact archived prediction/manifest SHA matches and inspected in-fold Pipeline",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "Pairs were selected from the closest 2\\% of all pairs in the standardized nine-descriptor geometry space and ranked by contrast in the target mechanism coordinate.",
+    "new": "The original illustrative selector uses each framework's three nearest neighbors in the standardized nine-descriptor space, retains only source-row pairs with $i<j$, and keeps the lower distance quartile of the resulting 384 candidates. Maximizing the coordinate contrast within those 96 candidates yields the retained examples below. This row-order-dependent candidate construction differs from an exhaustive all-pair search. We preserve its examples and separately enumerate the closest 2\\% of all 28,203 pairs (564 candidates) in the reconciled analysis. The original code establishes the implemented operation, not an independently verified preregistration date.",
+    "evidence": "Archived selector and independent exhaustive geometry enumeration",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "M089/M192 have standardized geometry distance 0.199;",
+    "new": "The all-pair optima are distinct from the illustrative cases: M099/M136 maximizes attraction contrast within the 564-pair set (geometry distance 0.463; attraction contrast 1.367), and M043/M085 maximizes electrostatic contrast (distance 0.395; electrostatic contrast 1.892). Their full identifiers, candidate sets, exact values and original alias mapping are released in the pair-selection reconciliation tables. The retained M089/M192 and M029/M085 figures and scalar values are unchanged and are not presented as these exhaustive optima.\n\nM089/M192 have standardized geometry distance 0.199;",
+    "evidence": "data/final/pair_selection_reconciliation.csv and restored original WCA alias ledger",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "The version-2 \\texttt{figure\\_3\\_source.csv} file contains random-five-fold results for a previous model specification, with $R^2=0.032$ for the electrostatic increment. The version-5 SI and manuscript subsequently reported a frozen geometry-control evaluation with $R^2=0.188$, MAE $0.146$ and median-predictor MAE $0.147$. Version 9 reproduces the \\emph{display} of the latter metrics and checks its underlying table for completeness; it does not claim to have re-fit the version-5 model because the original fold-level predictions are absent from the supplied archive. The earlier group-holdout metrics are preserved as a sensitivity dataset, not treated as if computed by the final model.",
+    "new": "The version-2 \\texttt{figure\\_3\\_source.csv} file contains results for an earlier model, including electrostatic $R^2=0.032$. The final 14-feature evaluation reported $R^2=0.188$, MAE $0.146$ and full-cohort median-reference MAE $0.147$. The initial v9 ZIP contained only a transcription of those final metrics. The reconciled release restores their matching archived OOF vectors, feature manifest, fitting-protocol source and bootstrap records. Metrics and confidence intervals are recomputed from those saved vectors without fitting a model. A neighboring 25-feature descriptor analysis produces different scores and is not substituted. The earlier v2 group-holdout results remain historical sensitivity evidence with a different model specification.",
+    "evidence": "Restored byte-identical leakage_free_descriptors evidence matches v9; distinct final_descriptor_hierarchy/25-feature metrics rejected",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "The final published cross-validation summary was retained as a table transcribed from version 5, whereas full prediction vectors, saved estimators, fold memberships and every preprocessing operation were not provided in the source ZIP. We can reliably reproduce the display of its published metrics and verify their internal formatting, but cannot claim an independent exact rerun of that final fit. The earlier version-2 model and its holdouts can be archived for provenance while being clearly distinguished from the later final specification.",
+    "new": "The initial v9 ZIP retained the final cross-validation summary as a transcription. The reconciled release restores the matching archived geometry OOF vectors and the 14-feature manifest and recomputes their metrics and bootstrap intervals. Fold metadata are reconstructed from the archived KFold seed and unchanged input ordering; the inspected source places preprocessing inside the training folds. Saved estimators were not restored and no model fit was rerun. The earlier version-2 model and the neighboring 25-feature analysis remain distinct from this final 14-feature evidence.",
+    "evidence": "Recovered final source manifests/OOF; honest boundary between prediction audit and training replay",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "The accompanying electronic research-data archive includes the authoritative 238-MOF mechanism table, the original five version-2 figure-source CSVs, a separate final version-5 model-metric table transcribed from the manuscript, figure-generation code and its dependencies, redrawn figure output, and checksums. The version-2 figure-3 table uses an earlier model definition and is not substituted for the version-5 main-text scores. The ZIP does not include the original structure files, exact final out-of-fold prediction vectors, voxel arrays, or all simulation force-field inputs. These must be obtained from the originating laboratory archive and publicly deposited, with a permanent data DOI, before any claim of complete simulation-level reproducibility can be made.",
+    "new": "The reconciled release includes the unchanged authoritative 238-MOF mechanism table, archived gas-specific seed summaries, matching final 14-feature geometry OOF predictions, descriptor manifest and source protocol, bootstrap and sensitivity records, explicit figure-source tables, plotting and verification code, final documents and checksums. The earlier version-2 figure-3 data and neighboring 25-feature model are not substituted for the final scores. The recorded molecular protocol and guest/force-field definitions are supplied for provenance, but the release does not provide a complete runnable set of all original CIFs, per-job decks, executable environments or spatial voxel fields. Analytical regeneration is therefore supported; a fresh simulation or model-training replay is not claimed.",
+    "evidence": "Restored sources and self-contained release inventory; no fresh models/simulations",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "\\noindent\\textit{Data provenance note.} The archived v5 plot of the alternative-force-field WCA bridge is retained in \\texttt{figures/legacy\\_spatial/} but was not redrawn because its per-point numerical bridge table was not included among the v2 figure-source files. Its reported aggregate metrics are carried forward as historical results only; direct reanalysis requires the underlying simulation records.",
+    "new": "\\noindent\\textit{Data provenance note.} The reconciled release restores 90 matched seed rows and 30 framework/gas mean rows for this bridge. Its reported aggregate MAE, maximum shifts and rank correlations are independently reaggregated from those rows. This reanalysis does not rerun the alternative-force-field simulations or reproduce the legacy rendered plot.",
+    "evidence": "Restored bridge evidence original hashes verified; numerical recomputation passes",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "The numerical paper figures are reproducible from the supplied CSV files; redoing the underlying molecular simulation from first principles requires framework CIFs, force-field inputs and seeded job records not supplied in the initial archive.",
+    "new": "The numerical paper figures and final OOF metrics are regenerated from the supplied CSV files without refitting. Fresh molecular simulation additionally requires the complete primary CIF, input-deck and executable set; that replay is not claimed for this analytical release.",
+    "evidence": "Restored numerical evidence; complete fresh simulation inputs remain outside released scope",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "data/authoritative/geometry_cv_FINAL_v5_transcribed.csv",
+    "new": "data/final/geometry_oof_predictions.csv\ndata/final/geometry_cv_metrics.csv",
+    "evidence": "Figure 3 now reads saved-prediction-derived exact final metrics",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "The exact file names needed for a rerun are documented in \\texttt{README\\_START\\_HERE.md}",
+    "new": "The exact file names needed for analytical regeneration are documented in \\texttt{README.md}",
+    "evidence": "New portable publication README",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "Spatial insertion fields & Rendered legacy PDFs, original numerical voxel arrays absent & Historical visuals only; no new voxel figures",
+    "new": "Spatial insertion fields & Historical rendered maps outside this analytical release & No voxel-field replay or new spatial figures",
+    "evidence": "Clean publication excludes historical figure bulk; only final scientific figures are released",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "The earlier v5 archive includes rendered local electrostatic insertion maps and describes a $0.75$~\\AA{} grid, probability-supported voxel weighting and orientation convergence tests. However, raw voxel arrays and the original CIF geometries were not supplied. These renderings are retained separately in \\texttt{figures/legacy\\_spatial/} as historical records, not as newly redrawn or independently replicated fields. The quantitative matched-pair statement in the main text relies on reproducible global Henry coefficients rather than unavailable field data.",
+    "new": "The earlier v5 archive includes rendered local electrostatic insertion maps and describes a $0.75$~\\AA{} grid, probability-supported voxel weighting and orientation convergence tests. Those historical renderings and their spatial grids are outside this clean analytical release. The quantitative matched-pair statement relies on the verified global Henry coefficients; no new spatial field or microscopic mechanism attribution is inferred from rendered maps.",
+    "evidence": "Release scope excludes historical spatial figures; verified global values unchanged",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "python scripts/export_derived_tables.py\npython scripts/regenerate_figures.py\npython scripts/verify_package.py",
+    "new": "python scripts/make_results.py\npython scripts/make_figures.py\npython scripts/verify_package.py",
+    "evidence": "Portable wrappers export final metrics and explicit figure sources before plotting",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "data/source_v2/figure_1_source.csv\n...\ndata/source_v2/figure_5_source.csv",
+    "new": "data/provenance/descriptor_hierarchy_predictions.csv\ndata/figure_sources/\ndata/figure_sources/SOURCE_MAP.json",
+    "evidence": "Actual final figure-generation inputs and matching archived OOF evidence",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "The companion \\texttt{scripts/export\\_derived\\_tables.py} writes derived family and shortlist tables so that every number used in the expanded narrative is separately inspectable.",
+    "new": "The companion \\texttt{scripts/make\\_results.py} writes the final coordinate, family, shortlist, endpoint and pair-selection reconciliation tables and exports the explicit figure inputs; all calculations use the preserved cohort and saved prediction evidence.",
+    "evidence": "Tested result-generation entry point",
+    "occurrences": 1
+  },
+  {
+    "file": "manuscript/main.tex",
+    "old": "The framework-level results, source tables, derived statistical analyses, figure-generation code, and provenance manifests are supplied with the electronic supporting data for this manuscript. The original framework structure files and complete primary simulation input decks are not present in this release; consequently, the figures and statistics can be reproduced from the supplied tables, but the primary molecular simulations cannot be rerun from this archive alone.",
+    "new": "The framework-level results, matching final saved OOF predictions, statistical analyses, explicit figure sources, code and provenance manifests are supplied in the companion repository, \\url{https://github.com/alimardani76/bundle_molsim}. The unchanged 238-framework cohort supports regeneration of the numerical results and figures without model refitting. The original structural and per-job simulation inputs are not supplied as a complete runnable set; fresh molecular simulation is therefore outside the reproducibility claim of this release.",
+    "evidence": "Target repository and final file inventory; publication remains conditional until validated push",
+    "occurrences": 1
+  },
+  {
+    "file": "data/authoritative/geometry_cv_FINAL_v5_SOURCE.txt",
+    "old": "VALUES TRANSCRIBED FROM v5/si.tex, Geometry-only models table, and v5 main.tex. Figure_3_source.csv in v2 has earlier (non-identical) model figures. This table must NOT be described as newly re-fit or experimentally revalidated. Exact out-of-fold prediction vectors were not included in this ZIP.\n",
+    "new": "Historical v5 metric transcription, preserved unchanged as a reference table. The reconciled release restores its matching 14-feature saved OOF evidence in data/provenance/descriptor_hierarchy_predictions.csv and the feature manifest, fitting-protocol source, and bootstrap evidence. Exact metrics are recomputed into data/final/geometry_cv_metrics.csv; Figure 3 uses those recomputed metrics. No model was refit. Earlier v2 and neighboring 25-feature models are distinct.\n",
+    "evidence": "Restored 952 final geometry predictions and original manifest hash matches",
+    "occurrences": 1
+  },
+  {
+    "file": "supporting_information/supporting_information.tex",
+    "old": "python scripts/make_results.py\npython scripts/make_figures.py\npython scripts/verify_package.py",
+    "new": "python scripts/make_results.py\npython scripts/make_figures.py\npython scripts/verify_package.py --prepare-checksums\npython scripts/write_checksums.py\npython scripts/verify_package.py",
+    "evidence": "SI command sequence now includes the required validated checksum refresh after figure regeneration",
+    "occurrences": 1
+  }
+]

@@ -1,0 +1,48 @@
+\begin{thebibliography}{1}
+
+\bibitem{burner2023arcmof}
+Jake Burner, Jun Luo, Andrew White, Adam Mirmiran, Ohmin Kwon, Peter~G. Boyd,
+  Stephen Maley, Marco Gibaldi, Scott Simrod, Victoria Ogden, and Tom~K. Woo.
+\newblock Arc--mof: A diverse database of metal--organic frameworks with
+  dft-derived partial atomic charges and descriptors for machine learning.
+\newblock {\em Chemistry of Materials}, 35(3):900--916, 2023.
+
+\bibitem{ran2024raspa3}
+Y.~A. Ran, S.~Sharma, S.~R.~G. Balestra, Z.~Li, S.~Calero, T.~J.~H. Vlugt,
+  R.~Q. Snurr, and D.~Dubbeldam.
+\newblock Raspa3: A monte carlo code for computing adsorption and diffusion in
+  nanoporous materials and thermodynamics properties of fluids.
+\newblock {\em The Journal of Chemical Physics}, 161:114106, 2024.
+
+\bibitem{dubbeldam2016raspa}
+David Dubbeldam, Sofia Calero, Donald~E. Ellis, and Randall~Q. Snurr.
+\newblock Raspa: Molecular simulation software for adsorption and diffusion in
+  flexible nanoporous materials.
+\newblock {\em Molecular Simulation}, 42:81--101, 2016.
+
+\bibitem{rappe1992uff}
+A.~K. Rappe, C.~J. Casewit, K.~S. Colwell, W.~A. Goddard, and W.~M. Skiff.
+\newblock Uff, a full periodic table force field for molecular mechanics and
+  molecular dynamics simulations.
+\newblock {\em Journal of the American Chemical Society}, 114:10024--10035,
+  1992.
+
+\bibitem{garciasanchez2009co2}
+Almudena Garc{\'i}a-S{\'a}nchez, Conchi~O. Ania, Jos{\'e}~B. Parra, David
+  Dubbeldam, Thijs J.~H. Vlugt, Rajamani Krishna, and Sof{\'i}a Calero.
+\newblock Transferable force field for carbon dioxide adsorption in zeolites.
+\newblock {\em The Journal of Physical Chemistry C}, 113(20):8814--8820, 2009.
+
+\bibitem{martincalvo2015gases}
+Ana Martin-Calvo, Juan~J. Guti{\'e}rrez-Sevillano, Jos{\'e}~B. Parra, Conchi~O.
+  Ania, and Sof{\'i}a Calero.
+\newblock Transferable force fields for adsorption of small gases in zeolites.
+\newblock {\em Physical Chemistry Chemical Physics}, 17(37):24048--24055, 2015.
+
+\bibitem{weeks1971wca}
+John~D. Weeks, David Chandler, and Hans~C. Andersen.
+\newblock Role of repulsive forces in determining the equilibrium structure of
+  simple liquids.
+\newblock {\em The Journal of Chemical Physics}, 54(12):5237--5247, 1971.
+
+\end{thebibliography}

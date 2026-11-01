@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "checks": 6436,
+  "failed": 0,
+  "cohort": 238,
+  "OOF_rows": 952,
+  "model_refit": false,
+  "simulation": false,
+  "fold_membership": "reconstructed metadata; source-inspected protocol",
+  "bootstrap_ci95": {
+    "median_attr": [
+      2.438285969735578,
+      2.6242393665847468
+    ],
+    "median_elec": [
+      0.2931538318861357,
+      0.3226738915019709
+    ],
+    "rho_attr_elec": [
+      -0.22202875432885055,
+      0.05028332832583179
+    ],
+    "fraction_attr_positive": [
+      1.0,
+      1.0
+    ],
+    "fraction_elec_positive": [
+      1.0,
+      1.0
+    ],
+    "r2_attr": [
+      0.8342485976952466,
+      0.9066194944617093
+    ],
+    "r2_elec": [
+      -0.019518171721388373,
+      0.30125080884525923
+    ],
+    "predictability_gap": [
+      0.5597498842208415,
+      0.9053752180468466
+    ]
+  },
+  "shuffle_replayed": true
+}

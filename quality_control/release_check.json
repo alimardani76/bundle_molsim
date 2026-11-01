@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "numerical_checks": 6436,
+  "release_checks": 93,
+  "frameworks": 238,
+  "geometry_OOF_rows": 952,
+  "main_figures": 6,
+  "SI_figures": 4,
+  "TOC": 1,
+  "model_refit": false,
+  "fresh_simulation": false,
+  "hashes_checked": true,
+  "visual_review": "PASS: 11 figures, 23 main pages, 15 SI pages",
+  "specific_SI_instruction_fix": "Compiled successfully; affected pages reviewed; numerical audit not repeated",
+  "final_checksum_entries": 230,
+  "publication_gate": "PASS"
+}
