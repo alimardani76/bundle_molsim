@@ -29,5 +29,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: JCTC-Overleaf-ZIP-b7390df6
-          path: dist/JCTC_OVERLEAF_SYNCED_4227244e.zip
+          path: dist/JCTC_OVERLEAF_SYNCED_b7390df6.zip
           if-no-files-found: error
