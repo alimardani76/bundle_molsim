@@ -69,10 +69,10 @@ def main():
    rasterize(result/(name+'.pdf'),result/(name+'.png'),result/(name+'.tiff'))
   for name in FIGURE_NAMES:
    for ext in ('.pdf','.png','.tiff'):shutil.copy2(result/(name+ext),fig_dir/(name+ext))
- (repo/'figures/panels').mkdir(exist_ok=True,parents=True)
- for srcname,dstname in [('fig1d_final','fig1d_redrawn'),('fig4c_final','fig4c_redrawn')]:
-  for ext in ('.pdf','.svg','.png'):
-   shutil.copy2(panels/(srcname+ext),repo/'figures/panels'/(dstname+ext))
+  (repo/'figures/panels').mkdir(exist_ok=True,parents=True)
+  for srcname,dstname in [('fig1d_final','fig1d_redrawn'),('fig4c_final','fig4c_redrawn')]:
+   for ext in ('.pdf','.svg','.png'):
+    shutil.copy2(panels/(srcname+ext),repo/'figures/panels'/(dstname+ext))
  qa={'mode':numbers['mode'],'verified':numbers,'panels':checks,
   'pdf_sha256':{name:sha256(fig_dir/(name+'.pdf')) for name in FIGURE_NAMES},
   'scope':'Only Figure 1(d) and 4(c) changed. All other scientific inputs and panels preserved.'}
