@@ -80,9 +80,9 @@
   ],
   "artifacts": {
     "manuscript/main.tex": "5db2674f8532d8d6911566641dd035f4ff72bf7ae056ae0aea922ee461630605",
-    "manuscript/main.pdf": "d022dfa549e9d47e9e5f3890ee0a33d8e057c590f28f6c8be50824acef03456b",
+    "manuscript/main.pdf": "76d32b7cb12fce6ed48cfe2f104cd1446c934c16c4471d5e47939bf540d99e0b",
     "manuscript/references.bib": "3f5517c6ffef616314302c73a09742f5a2051c5277ec9de8ad58f2ef76b0f0f5",
     "supporting_information/supporting_information.tex": "53cc23c431d998c9d25262f3935da316ecb4b1909f2085eb3905236fa1ae30db",
-    "supporting_information/supporting_information.pdf": "b125983a963a4cd294830832cb067e9d90e4c2c5f8759ace4ed4f15e10ff9acb"
+    "supporting_information/supporting_information.pdf": "3a1263eadc6c2f836aed7db43f62782b1573f7ec8aacca92ba061ea214d76967"
   }
 }

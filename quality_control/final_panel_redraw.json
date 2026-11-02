@@ -1,0 +1,27 @@
+{
+  "mode": "full_source_csv_verified",
+  "verified": {
+    "mode": "full_source_csv_verified",
+    "elec_a": 0.1406952326393886,
+    "elec_b": 2.000688635436105,
+    "delta": 1.8599934027967162,
+    "factor": 6.423694392871601,
+    "geometry": 0.2575292552493384,
+    "wca": 0.0031379311761580986
+  },
+  "panels": {
+    "fig1_interaction_pathway": {
+      "unchanged_area_pixels_compared": 1357854,
+      "changed_pixels_outside_panel": 0
+    },
+    "fig4_matched_contrast": {
+      "unchanged_area_pixels_compared": 819568,
+      "changed_pixels_outside_panel": 0
+    }
+  },
+  "pdf_sha256": {
+    "fig1_interaction_pathway": "b897a31818eaa49e90477c0773f1f2bdbf765f06129bbd68e9be96b5ec10b338",
+    "fig4_matched_contrast": "a3f796881617aeed38f772ef5f933930a7776e98850a054babe41c55605e958b"
+  },
+  "scope": "Only Figure 1(d) and 4(c) changed. All other scientific inputs and panels preserved."
+}
