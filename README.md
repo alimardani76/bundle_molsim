@@ -62,3 +62,15 @@ python scripts/verify_package.py
 ```
 
 After intentional regeneration, refresh digests only after the numerical/document checks pass. The committed [checksum manifest](quality_control/SHA256SUMS.txt) covers the selected release files. CI checks the delivered digests before running the analytical self-test; it does not run simulations or train models.
+
+## Final panel redesign — Shayan (2 November 2026)
+
+The scientific data and all numerical coordinates are unchanged. The updated publication artwork replaces **only Figure 1(d)** and **Figure 4(c)**, using a vector-safe PDF overlay preserving the other panels. The canonical figure pipeline is now `python scripts/make_figures.py`: recompute figures from tracked sources, then apply the numerically gated redraw. The script `scripts/redraw_final_panels.py` can also be run on an unchanged baseline set of figure PDFs, which is the method used for the approved integration.
+
+- Figure 1(d) data: [238-row `figure_1.csv`](data/figure_sources/figure_1.csv); artwork: [`scripts/final_panel_assets/redraw_v2.py`](scripts/final_panel_assets/redraw_v2.py).
+- Figure 4(c) data: [`figure_4_pair.csv`](data/figure_sources/figure_4_pair.csv) and [`figure_4_values.csv`](data/figure_sources/figure_4_values.csv); preserved full-precision source snapshot: [`figure_4_pair_verified.csv`](scripts/final_panel_assets/figure_4_pair_verified.csv).
+- Generated standalone editable SVG/PDF/PNG panels: `figures/panels/`. Full figures and printable PNG/TIFFs: `figures/main/`. Source/visual QA: `quality_control/final_panel_redraw.json`.
+- The displayed `0 / 238` WCA and `238 / 238` LJ-only labels refer to **point estimates**. The displayed `6.42×` is the **ratio of electrostatic enhancement factors**, not the final-selectivity ratio.
+
+The handoff's original two PDF baselines were byte-identical to GitHub's previously audited release. The integration workflow [`integrate-final-panels.yml`](.github/workflows/integrate-final-panels.yml) verifies the exact original Git blobs and all 238 source rows, compares unchanged PDF regions pixel-for-pixel, rebuilds the manuscript/SI and refreshes checksums before publishing the updated assets. No RASPA simulation or ML fit is run.
+

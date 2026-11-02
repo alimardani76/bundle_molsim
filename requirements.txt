@@ -12,3 +12,4 @@ python-dateutil==4.0.0
 pytz==2026.6
 scipy==1.18.1
 tzdata==2026.6
+PyMuPDF==1.26.7

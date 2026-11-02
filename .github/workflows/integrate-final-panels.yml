@@ -1,0 +1,57 @@
+name: Integrate Shayan Figure 1d and 4c redesign
+on:
+  push:
+    paths:
+      - scripts/redraw_final_panels.py
+      - scripts/final_panel_assets/**
+      - scripts/make_figures.py
+      - .github/workflows/integrate-final-panels.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  integrate:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install -r requirements.txt
+      - name: Verify original publication figure baselines
+        run: |
+          test "$(git hash-object figures/main/fig1_interaction_pathway.pdf)" = "892996d461f359a751de0d0e566b96801419d1ba"
+          test "$(git hash-object figures/main/fig4_matched_contrast.pdf)" = "b6a997632f8ce079924cfc90de540ac953217988"
+      - name: Full-source checks and two-panel redraw
+        run: python scripts/redraw_final_panels.py
+      - name: Compile manuscript and SI
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq texlive-latex-extra texlive-bibtex-extra texlive-fonts-recommended texlive-science
+          python scripts/build_documents.py
+      - name: Verify numeric and document consistency
+        run: python scripts/verify_package.py --prepare-checksums
+      - name: Refresh selected-release checksums
+        run: |
+          python scripts/write_checksums.py
+          python scripts/verify_package.py
+          python scripts/check_checksums.py
+      - name: Commit regenerated figure artifacts and PDFs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add figures/main/fig1_interaction_pathway.pdf figures/main/fig1_interaction_pathway.png figures/main/fig1_interaction_pathway.tiff
+          git add figures/main/fig4_matched_contrast.pdf figures/main/fig4_matched_contrast.png figures/main/fig4_matched_contrast.tiff
+          git add figures/panels/
+          git add manuscript/main.pdf supporting_information/supporting_information.pdf
+          git add quality_control/SHA256SUMS.txt quality_control/input_hashes.sha256 quality_control/document_build.json quality_control/final_panel_redraw.json
+          git add manuscript/main.bbl supporting_information/supporting_information.bbl
+          git diff --cached --check
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish Shayan's numerically verified Figure 1d and 4c redesign"
+            git push origin HEAD:main
+          fi
