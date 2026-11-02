@@ -22,12 +22,12 @@ jobs:
       - name: Upload Overleaf project ZIP (direct-upload ZIP contents)
         uses: actions/upload-artifact@v4
         with:
-          name: JCTC-Overleaf-Ready-4227244e
+          name: JCTC-Overleaf-Ready-b7390df6
           path: dist/overleaf_project/
           if-no-files-found: error
       - name: Upload nested standalone ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: JCTC-Overleaf-ZIP-4227244e
+          name: JCTC-Overleaf-ZIP-b7390df6
           path: dist/JCTC_OVERLEAF_SYNCED_4227244e.zip
           if-no-files-found: error

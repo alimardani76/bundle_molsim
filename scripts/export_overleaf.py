@@ -11,7 +11,7 @@ import re
 import subprocess
 import zipfile
 
-RELEASE = "4227244e23912611facf6b60d2b84eb4bc97971e"
+RELEASE = "b7390df6efa58d5fd4ff2c6d665d3616b6183d25"
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "dist" / "overleaf_project"
 ZIP = ROOT / "dist" / f"JCTC_OVERLEAF_SYNCED_{RELEASE[:8]}.zip"
@@ -20,10 +20,10 @@ EXPECTED = {
  "supporting_information/supporting_information.tex": "96c4aac0096d1bdfa9e335a3341f9bda2206a9e0",
  "manuscript/references.bib": "184f491cd09ff8d01f6c5e3d3ad68bc29414dd5c",
  "CHANGELOG_SCIENTIFIC.md": "618ff0e437a20caab36fcc3688857e51376a25ee",
- "figures/main/fig1_interaction_pathway.pdf": "892996d461f359a751de0d0e566b96801419d1ba",
+ "figures/main/fig1_interaction_pathway.pdf": "98d016ff811d205cf40817d6161148c0d6cc502f",
  "figures/main/fig2_mechanism_diversity.pdf": "c8a138b1917e8124b19b4d1c2e927d0209732586",
  "figures/main/fig3_geometry_information.pdf": "465fb53771efb4269052aa3aa8479502314d0edf",
- "figures/main/fig4_matched_contrast.pdf": "b6a997632f8ce079924cfc90de540ac953217988",
+ "figures/main/fig4_matched_contrast.pdf": "e9cebc12499191136d50601b1752b29db7dd8b88",
  "figures/main/fig5_ranking_consequences.pdf": "956f694bb72ef0231be46092d0da1a6a0c8df0f6",
  "figures/main/fig6_family_and_shortlist.pdf": "e8fbfc4b8bcf2bd4af4684209be227f50e4bac27",
  "figures/si/figS1_precision_diagnostics.pdf": "b665cc8acd7b09b92858fa49eae78775607a55e7",
