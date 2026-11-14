@@ -1,0 +1,5 @@
+target,R2_geometry_5fold_OOF,MAE_geometry_5fold_OOF,MAE_training_fold_median_reference
+WCA,0.967505598,0.014228,0.098618
+LJ-WCA,0.879658475,0.176149,0.556989
+Charging,0.188039984,0.146024,0.147252
+Full,0.845240527,0.188768,0.501871
