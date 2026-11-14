@@ -1,4 +1,4 @@
-name: Verify publication evidence
+name: Verify revised numerical figures
 on: [push, pull_request, workflow_dispatch]
 jobs:
   numerical-and-document-checks:
@@ -8,6 +8,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: python -m pip install -r requirements.txt
-      - run: python scripts/check_checksums.py
-      - run: python scripts/verify_package.py --prepare-checksums
+      - name: Install figure dependencies
+        run: python -m pip install -r requirements_figures.txt
+      - name: Check committed figure sources and publication PDFs
+        run: python scripts/check_revision_figures.py
+      - name: Rebuild publication figures from corrected sources
+        run: python scripts/plot_revision_all.py
+      - name: Verify regenerated figures and numerical identities
+        run: python scripts/check_revision_figures.py

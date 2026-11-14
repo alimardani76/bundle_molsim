@@ -1,0 +1,44 @@
+{
+  "source": "/mnt/data/JCTC_Git_Sync_20261115/build/revision_figures/main.tex",
+  "figures": {
+    "fig1_interaction_pathway": {
+      "exists": true,
+      "bytes": 205996
+    },
+    "fig2_mechanism_diversity": {
+      "exists": true,
+      "bytes": 78807
+    },
+    "fig3_geometry_information": {
+      "exists": true,
+      "bytes": 53349
+    },
+    "fig4_matched_contrast": {
+      "exists": true,
+      "bytes": 108931
+    },
+    "fig5_ranking_consequences": {
+      "exists": true,
+      "bytes": 74359
+    },
+    "fig6_family_and_shortlist": {
+      "exists": true,
+      "bytes": 62079
+    }
+  },
+  "corrected_WCA_median": -0.207469591892595,
+  "corrected_A_median": 2.5326873020516754,
+  "spearman_WCA_LJ": -0.7965586319268984,
+  "spearman_A_E": -0.09923051896464322,
+  "E_share_median": 0.11417292887656935,
+  "top24_WCA_LJ_overlap": 0,
+  "top24_LJ_full_overlap": 17,
+  "subgroup_medians_A": [
+    2.5905473171450195,
+    1.753466848726089
+  ],
+  "subgroup_medians_E": [
+    0.3076359027083855,
+    0.3127468437769372
+  ]
+}
